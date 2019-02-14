@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-md-4">
           <card>
-            <card-title>Vérification de caractère</card-title>
+            <card-title>Vérification de caractères</card-title>
             <card-text>Vérifier que les fichiers encodés avec ISO 8859-1 (latin1) ne possède pas de caractère non inclus dans l'encodage.</card-text>
             <card-link :to="{ name: 'character-checker' }">Accèder au service</card-link>
           </card>
