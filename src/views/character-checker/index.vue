@@ -7,10 +7,10 @@
             </div>
         </div>
         <div class="container">
-            <h2>Déposer votre fichier</h2>
+            <h2>Déposer votre fichier</h2>  
             <div class="input-group mb-2">
                 <div class="custom-file">
-                    <input type="file" id="file" aria-describedby="input" class="custom-file-input" @change="processFile($event)">
+                    <input type="file" name="file" id="file" aria-describedby="input" class="custom-file-input" @change="processFile($event)">
                     <label for="file" class="custom-file-label">{{ (fileIsUploaded) ? file.name : 'Déposez votre fichier' }}</label>
                 </div>
             </div>
@@ -34,13 +34,23 @@ export default {
     },
     methods: {
         processFile (event) {
-            const [file] = event.target.files
-            this.file = file
+            const uploadedFile = event.target.files[0]
+            this.file = uploadedFile
         },
         verify () {
             if (this.file === null) {
                 return
             }
+
+            const form = new FormData()
+            form.append('file', this.file)
+
+            fetch('http://localhost:3000/character-checker', {
+                method: 'POST',
+                body: form
+            })
+            .then(res => res.json(), rej => console.log(rej))
+            .then(json => console.log(json))
         }
     }
 }
