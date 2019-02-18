@@ -20,6 +20,16 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/character-checker/index.vue')
+    }, {
+      path: '/csv-to-xml',
+      component: () => import('./views/csv-to-xml/index.vue'),
+      children: [
+        {
+          path: '',
+          name: 'csv-to-xml',
+          component: () => import('./views/csv-to-xml/start.vue')
+        }
+      ]
     }
   ]
 })

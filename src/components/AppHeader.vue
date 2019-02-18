@@ -8,7 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <router-link class="nav-link" :to="{ name: 'character-checker' }">Vérification de caractères <span class="sr-only">(current)</span></router-link>
+                <router-link class="nav-link" :to="{ name: 'character-checker' }">Vérification de caractères</router-link>
+            </li>
+            <li class="nav-item active">
+                <router-link class="nav-link" :to="{ name: 'csv-to-xml' }">CSV vers XML</router-link>
             </li>
         </ul>
     </div>
