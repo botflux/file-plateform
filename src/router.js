@@ -28,6 +28,10 @@ export default new Router({
           path: '',
           name: 'csv-to-xml',
           component: () => import('./views/csv-to-xml/start.vue')
+        }, {
+          path: 'file',
+          name: 'csv-to-xml-file',
+          component: () => import('./views/csv-to-xml/file.vue')
         }
       ]
     }
