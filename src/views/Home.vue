@@ -11,15 +11,8 @@
         <div class="col-md-4">
           <card>
             <card-title>Vérification de caractères</card-title>
-            <card-text>Vérifiez que les fichiers encodés avec ISO 8859-1 (latin1) ne possède pas de caractère non inclus dans l'encodage.</card-text>
+            <card-text>Vérifier que les fichiers encodés avec ISO 8859-1 (latin1) ne possède pas de caractère non inclus dans l'encodage.</card-text>
             <card-link :to="{ name: 'character-checker' }">Accèder au service</card-link>
-          </card>
-        </div>
-        <div class="col-md-4">
-          <card>
-            <card-title>CSV vers XML</card-title>
-            <card-text>Convertissez des fichiers au format CSV vers le format XML en faisant des opérations précises et en ajoutant vérifiant les types.</card-text>
-            <card-link :to="{ name: 'csv-to-xml' }">Accèder au service</card-link>
           </card>
         </div>
       </div>
