@@ -6,15 +6,18 @@
         <div class="row mb-4">
             <label>Liste des en-têtes détéctées dans le fichier</label>
         </div>
-        <file-header-container>
-            <file-header v-for="(header, i) in headers" :key="`header${i}`" :header="header" />
-        </file-header-container>
+        <table class="table table-bordered mb-5">
+            <tbody>
+                <tr>
+                    <td v-for="(header, i) in headers" :key="`header${i}`">{{ header }}</td>
+                </tr>
+            </tbody>
+        </table>
         <div class="row mb-4">
             <div class="col-md-12">
                 <button class="btn btn-success" @click="addField({ field: createNewField() })">Ajouter un nouveau champs</button>
             </div>
         </div>
-
         <div class="row border-bottom pb-2 pt-4" v-for="field in fields" :key="field.id">
             <div class="col-md-10 mb-3 d-flex flex-column">
                 <label>Nom du champs</label>
@@ -44,13 +47,8 @@
 import { mapActions, mapState } from 'vuex'
     /* eslint-disable */
 import { ADD_FIELD, REMOVE_FIELD, UPDATE_FIELD } from '@/store/csv-to-xml'
-import FileHeader from '@/components/FileHeader'
-import FileHeaderContainer from '@/components/FileHeaderContainer'
 
 export default {
-    components: {
-        FileHeaderContainer, FileHeader
-    },
     computed: {
         ...mapState('csvToXml', {
             fields: state => state.fields,
