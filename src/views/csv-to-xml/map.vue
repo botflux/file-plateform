@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row mb-5">
-            <router-link :to="{ name: 'csv-to-xml-root' }" class="btn btn-primary">Suivant</router-link>
+            <router-link :to="{ name: 'character-checker' }" class="btn btn-primary">Suivant</router-link>
         </div>
         <div class="row mb-4">
             <div class="col-md-12">
