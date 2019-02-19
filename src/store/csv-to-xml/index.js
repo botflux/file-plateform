@@ -12,6 +12,7 @@ export const UPDATE_XML_DECLARATION = 'updateXmlDeclaration'
 export const REMOVE_XML_DECLARATION = 'removeXmlDeclaration'
 export const INCREMENT_ATTRIBUTE_ID = 'incrementAttributeId'
 export const INCREMENT_DECLARATION_ID = 'incrementDeclarationId'
+export const CLEAR_CSV_TO_XML_STATE = 'clearCSVToXMLState'
 
 const state = {
     file:           undefined,
@@ -80,6 +81,16 @@ const mutations = {
             ...state.declarations.filter(d => d.id !== declarationToUpdate.id),
             declarationToUpdate
         ]).sort((i, j) => i.id - j.id)
+    },
+    [CLEAR_CSV_TO_XML_STATE] (state) {
+        state.declarationId = 0
+        state.attributeId = 0
+        state.fieldId = 0
+        state.file = undefined
+        state.headers = []
+        state.attributes = []
+        state.declarations = []
+        state.fields = []
     }
 }
 
@@ -124,6 +135,9 @@ const actions = {
     },
     [UPDATE_XML_DECLARATION] ({ commit }, declarationToUpdate) {
         commit (UPDATE_XML_DECLARATION, declarationToUpdate)
+    },
+    [CLEAR_CSV_TO_XML_STATE] ({ commit }) {
+        commit (CLEAR_CSV_TO_XML_STATE)
     }
 }
 
