@@ -4,6 +4,16 @@
             <router-link :to="{ name: 'csv-to-xml-root' }" class="btn btn-primary">Suivant</router-link>
         </div>
         <div class="row mb-4">
+            <label>Liste des en-têtes détéctées dans le fichier</label>
+        </div>
+        <table class="table table-bordered mb-5">
+            <tbody>
+                <tr>
+                    <td v-for="(header, i) in headers" :key="`header${i}`">{{ header }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row mb-4">
             <div class="col-md-12">
                 <button class="btn btn-success" @click="addField({ field: createNewField() })">Ajouter un nouveau champs</button>
             </div>
@@ -11,7 +21,7 @@
         <div class="row border-bottom pb-2 pt-4" v-for="field in fields" :key="field.id">
             <div class="col-md-10 mb-3 d-flex flex-column">
                 <label>Nom du champs</label>
-                <div class="d-flex w-100 mb-3">
+                <div class="mb-3">
                     <input type="text" class="form-control" :value="field.name" @input="updateMessage($event, field.id)">
                 </div>
                 <label>De quelle(s) colonne(s) sera construit ce champs ?</label>
@@ -59,9 +69,9 @@ export default {
                 }
             },
             updateMessage (event, id) {
-                console.log(event, id)
                 const field = this.fields.find(f => f.id == id)
                 field.name = event.target.value
+                
                 this.$store.dispatch('csvToXml/'+UPDATE_FIELD, {field})
             },
             updateColumns (event, id) {
@@ -81,6 +91,23 @@ export default {
                 this.$store.dispatch('csvToXml/'+UPDATE_FIELD, {field})
             },
         }
+    },
+    beforeRouteLeave (to, from, next) {
+        if (to.name.includes ('csv-to-xml-')) {
+            const fieldsAreValid = this.fields.reduce ((prev, cur) => {
+                if (cur.name !== '' && cur.columns.length !== 0) {
+                    return true
+                }
+                
+                return prev
+            }, false)
+
+            if (fieldsAreValid) {
+                next()
+            }
+        } else {
+            next()
+        }        
     }
 }
 </script>
