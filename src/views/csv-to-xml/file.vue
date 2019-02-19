@@ -13,19 +13,15 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { SET_FILE, SET_HEADERS, CLEAR_CSV_TO_XML_STATE } from '../../store/csv-to-xml'
+import { SET_FILE, SET_HEADERS } from '../../store/csv-to-xml'
 import config from '@/config'
 
 const { backendRoot } = config
 
 export default {
-    mounted () {
-        this[CLEAR_CSV_TO_XML_STATE] ()
-    }, 
     computed: {
         ...mapState('csvToXml', {
-            file: state => state.file,
-            headers: state => state.headers
+            file: state => state.file
         }),
         ...{
             // fileIsUploaded () {
@@ -36,18 +32,18 @@ export default {
     methods: {
         ...mapActions('csvToXml', [
             SET_FILE,
-            SET_HEADERS,
-            CLEAR_CSV_TO_XML_STATE
+            SET_HEADERS
         ]),
         ...{    
             processFile (event) {
                 const file = event.target.files[0]
                 this[SET_FILE] ({file})
-            },
+            }
         }
     },
     watch: {
         file (newValue) {
+
             if (newValue === undefined || newValue === null) return
 
             fetch(backendRoot + '/csv-to-xml/get-headers', {
@@ -58,19 +54,6 @@ export default {
                     const { headers } = o.body
                     this[SET_HEADERS] ({ headers })
                 })
-        }
-    },
-    /* eslint-disable */
-    beforeRouteLeave (to, from, next) {
-        // console.log(to, from)
-        if (to.name.includes('csv-to-xml-')) {
-            const actionCompleted = (this.file !== undefined && this.file !== null && this.headers.length !== 0)
-            console.log(actionCompleted)
-            if (actionCompleted) {
-                next()
-            }
-        } else {
-            next()
         }
     }
 }
