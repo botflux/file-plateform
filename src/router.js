@@ -36,6 +36,10 @@ export default new Router({
           path: 'map',
           name: 'csv-to-xml-map',
           component: () => import('./views/csv-to-xml/map.vue')
+        }, {
+          path: 'root',
+          name: 'csv-to-xml-root',
+          component: () => import('./views/csv-to-xml/root.vue')
         }
       ]
     }

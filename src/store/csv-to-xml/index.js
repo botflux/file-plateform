@@ -4,12 +4,24 @@ export const ADD_FIELD = 'addField'
 export const REMOVE_FIELD = 'removeField'
 export const UPDATE_FIELD = 'updateField'
 export const INCREMENT_FIELD_ID = 'incrementFieldId'
+export const ADD_XML_ATTRIBUTE = 'addXmlAttribute'
+export const UPDATE_XML_ATTRIBUTE = 'updateXmlAttribute'
+export const REMOVE_XML_ATTRIBUTE = 'removeXmlAttribute'
+export const ADD_XML_DECLARATION = 'addXmlDeclaration'
+export const UPDATE_XML_DECLARATION = 'updateXmlDeclaration'
+export const REMOVE_XML_DECLARATION = 'removeXmlDeclaration'
+export const INCREMENT_ATTRIBUTE_ID = 'incrementAttributeId'
+export const INCREMENT_DECLARATION_ID = 'incrementDeclarationId'
 
 const state = {
-    file: undefined,
-    headers: [],
-    fields: [],
-    fieldId: 0
+    file:           undefined,
+    headers:        [],
+    fields:         [],
+    fieldId:        0,
+    attributeId:    0,
+    attributes:     [],
+    declarationId:  0,
+    declarations:   []
 }
 
 const mutations = {
@@ -38,6 +50,36 @@ const mutations = {
             ...state.fields.filter(f => f.id !== fieldToUpdate.id),
             fieldToUpdate
         ]).sort((f1, f2) => f1.id - f2.id)
+    },
+    [ADD_XML_ATTRIBUTE] (state, newAttribute) {
+        state.attributes = [...state.attributes, ...[newAttribute]]
+    },
+    [REMOVE_XML_ATTRIBUTE] (state, attributeToRemove) {
+        state.attributes = state.attributes.filter(a => a.id !== attributeToRemove.id)
+    },
+    [UPDATE_XML_ATTRIBUTE] (state, attributeToUpdate) {
+        state.attributes = ([
+            ...state.attributes.filter(a => a.id !== attributeToUpdate.id),
+            attributeToUpdate
+        ]).sort((f1, f2) => f1.id - f2.id)
+    },
+    [INCREMENT_ATTRIBUTE_ID] (state) {
+        state.attributeId ++
+    },
+    [INCREMENT_DECLARATION_ID] (state) {
+        state.declarationId ++
+    },
+    [ADD_XML_DECLARATION] (state, newDeclaration) {
+        state.declarations = [...state.declarations, ...[newDeclaration]]
+    },
+    [REMOVE_XML_DECLARATION] (state, declarationToRemove) {
+        state.declarations = state.declarations.filter(d => d.id !== declarationToRemove.id)
+    },
+    [UPDATE_XML_DECLARATION] (state, declarationToUpdate) {
+        state.declarations = ([
+            ...state.declarations.filter(d => d.id !== declarationToUpdate.id),
+            declarationToUpdate
+        ]).sort((i, j) => i.id - j.id)
     }
 }
 
@@ -58,6 +100,30 @@ const actions = {
     },
     [UPDATE_FIELD] ({ commit }, { field }) {
         commit(UPDATE_FIELD, field)
+    },
+    [ADD_XML_ATTRIBUTE] ({ commit }, newAttribute) {
+        newAttribute = { ...newAttribute, id: state.attributeId }
+
+        commit(INCREMENT_ATTRIBUTE_ID)
+        commit(ADD_XML_ATTRIBUTE, newAttribute)
+    },
+    [REMOVE_XML_ATTRIBUTE] ({ commit }, attributeToRemove) {
+        commit(REMOVE_XML_ATTRIBUTE, attributeToRemove)
+    },
+    [UPDATE_XML_ATTRIBUTE] ({ commit }, attributeToUpdate) {
+        commit(UPDATE_XML_ATTRIBUTE, attributeToUpdate)
+    },
+    [ADD_XML_DECLARATION] ({ commit }, newDeclaration) {
+        newDeclaration = { ...newDeclaration, id: state.declarationId }
+        commit(INCREMENT_DECLARATION_ID)
+        // console.log('update')
+        commit(ADD_XML_DECLARATION, newDeclaration)
+    },
+    [REMOVE_XML_DECLARATION] ({ commit }, declarationToRemove) {
+        commit(REMOVE_XML_DECLARATION, declarationToRemove)
+    },
+    [UPDATE_XML_DECLARATION] ({ commit }, declarationToUpdate) {
+        commit (UPDATE_XML_DECLARATION, declarationToUpdate)
     }
 }
 
