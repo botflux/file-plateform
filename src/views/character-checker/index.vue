@@ -7,14 +7,20 @@
             </div>
         </div>
         <div class="container mb-4">
-            <h2>Déposer votre fichier</h2>  
+            <h2 class="mb-5">Déposer votre fichier</h2>  
             <div class="input-group mb-2">
                 <div class="custom-file">
                     <input type="file" name="file" id="file" aria-describedby="input" class="custom-file-input" @change="processFile($event)">
                     <label for="file" class="custom-file-label">{{ (fileIsUploaded) ? file.name : 'Déposez votre fichier' }}</label>
                 </div>
             </div>
-            <button class="btn btn-primary" v-if="fileIsUploaded" @click="verify()">Vérifier le fichier</button>
+            <div class="d-flex">
+                <button class="btn btn-primary" v-if="fileIsUploaded" @click="verify()">Vérifier le fichier</button>
+                
+                <div class="spinner-border ml-5" role="status" v-show="(requested && !responded)">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
         <div class="container" v-if="(this.responded) && fileIsUploaded">
             <div class="row" v-if="issues.length > 0">
@@ -51,7 +57,7 @@ export default {
             file: null,
             issues: [],
             requested: false,
-            responded: false
+            responded: false,
         }
     },
     computed: {
@@ -82,6 +88,10 @@ export default {
                 const { result = [] } = object
                 this.issues = result
                 this.responded = true
+            })
+            // eslint-disable-next-line
+            .then(_ => {
+                console.log('fallback')
             })
         }
     }
