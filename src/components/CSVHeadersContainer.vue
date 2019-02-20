@@ -2,7 +2,7 @@
     <table class="table table-bordered">
         <tbody>
             <tr>
-                <td thead="row">En-têtes</td>
+                <th scope="row">En-têtes</th>
                 <slot />
             </tr>
         </tbody>
