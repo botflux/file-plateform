@@ -20,6 +20,18 @@
             </div>
         </div>
 
+        <div>
+            <h3>Définition des balises</h3>
+            <div class="form-group">
+                <label>Nom de la balise globale</label>
+                <input type="text" v-model="globalTag">
+            </div>
+            <div class="form-group">
+                <label>Nom de la balise d'entité</label>
+                <input type="text" v-model="collectionTag">
+            </div>
+        </div>
+
         <div class="d-flex flex-column">
             <h3>Définition des attributs de l'élément global</h3>
             <button class="btn btn-success mr-auto" @click="addAttribute()">Ajouter un attribut</button>
@@ -57,7 +69,9 @@ export default {
         return {
             mapFields:      [],
             attributes:     [],
-            declarations:   []
+            declarations:   [],
+            globalTag:      '',
+            collectionTag:  ''
         }
     },
     components: {
