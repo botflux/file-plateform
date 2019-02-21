@@ -19,34 +19,47 @@
                 <button class="btn btn-danger" @click="deleteMapField(i)">Supprimer</button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <h3>Définition des balises</h3>
+                    <div class="form-group">
+                        <label>Nom de la balise globale</label>
+                        <input type="text" v-model="globalTag">
+                    </div>
+                    <div class="form-group">
+                        <label>Nom de la balise d'entité</label>
+                        <input type="text" v-model="collectionTag">
+                    </div>
+                </div>
 
-        <div>
-            <h3>Définition des balises</h3>
-            <div class="form-group">
-                <label>Nom de la balise globale</label>
-                <input type="text" v-model="globalTag">
-            </div>
-            <div class="form-group">
-                <label>Nom de la balise d'entité</label>
-                <input type="text" v-model="collectionTag">
-            </div>
-        </div>
+                <div class="d-flex flex-column">
+                    <h3>Définition des attributs de l'élément global</h3>
+                    <button class="btn btn-success mr-auto" @click="addAttribute()">Ajouter un attribut</button>
+                    <div class="d-flex" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
+                        <xml-attribute :attribute="attribute" :attributeId="i" />
+                        <button class="btn btn-danger" @click="deleteAttribute(i)">Supprimer</button>
+                    </div>
+                </div>
 
-        <div class="d-flex flex-column">
-            <h3>Définition des attributs de l'élément global</h3>
-            <button class="btn btn-success mr-auto" @click="addAttribute()">Ajouter un attribut</button>
-            <div class="d-flex" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
-                <xml-attribute :attribute="attribute" :attributeId="i" />
-                <button class="btn btn-danger" @click="deleteAttribute(i)">Supprimer</button>
+                <div class="d-flex flex-column">
+                    <h3>Définition des déclarations du fichier XML</h3>
+                    <button class="btn btn-success mr-auto" @click="addDeclaration()">Ajouter une déclaration</button>
+                    <div class="d-flex" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
+                        <xml-declaration :declaration="declaration" :declarationId="i" />
+                        <button class="btn btn-danger" @click="deleteDeclaration(i)">Supprimer</button>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="d-flex flex-column">
-            <h3>Définition des déclarations du fichier XML</h3>
-            <button class="btn btn-success mr-auto" @click="addDeclaration()">Ajouter une déclaration</button>
-            <div class="d-flex" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
-                <xml-declaration :declaration="declaration" :declarationId="i" />
-                <button class="btn btn-danger" @click="deleteDeclaration(i)">Supprimer</button>
+            <div class="col-md-6">
+                <div class="jumbotron">
+                    <div>{{declarationTag|surround}}</div>
+                    <div>{{ globalOpeningTag | surround }}</div>
+                    <div class="ml-3">{{ collectionTag | surround }}</div>
+                    <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}Value{{ mapField.name | addSlash | surround }}</div>
+                    <div class="ml-3">{{ collectionTag | addSlash | surround }}</div>
+                    <div>{{ globalTag | addSlash | surround }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -70,8 +83,8 @@ export default {
             mapFields:      [],
             attributes:     [],
             declarations:   [],
-            globalTag:      '',
-            collectionTag:  ''
+            globalTag:      'Elements',
+            collectionTag:  'Element'
         }
     },
     components: {
@@ -98,6 +111,30 @@ export default {
 
                 return prev
             }, true)
+        },
+        globalOpeningTag () {
+            const attrString = this.attributes.reduce((prev, cur) => {
+                return `${prev} ${cur.name}="${cur.value}"`
+            }, '')
+
+            return this.globalTag + attrString
+        },
+        declarationTag () {
+            const declarationString = this.declarations.reduce((prev, cur) => {
+                return `${prev} ${cur.name}="${cur.value}"`
+            }, '')
+
+            return `?xml ${declarationString}?`
+        }
+    },
+    filters: {
+        surround (value) {
+            if (!value) return ''
+            return `<${value}>`
+        },
+        addSlash (value) {
+            if (!value) return ''
+            return `/${value}`
         }
     },
     methods: {
