@@ -26,11 +26,17 @@
                     <h3 class="mb-3">Définition des balises</h3>
                     <div class="form-group mb-4">
                         <label>Nom de la balise globale</label>
-                        <input type="text" v-model="globalTag" class="form-control">
+                        <input type="text" v-model="globalTag" class="form-control" :class="{ 'is-invalid': $v.globalTag.$invalid }">
+                        <div class="invalid-feedback" v-if="$v.globalTag.$invalid">
+                            Ce champs ne peut pas être vide !
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Nom de la balise d'entité</label>
-                        <input type="text" v-model="collectionTag" class="form-control">
+                        <input type="text" v-model="collectionTag" class="form-control" :class="{ 'is-invalid': $v.collectionTag.$invalid }">
+                        <div class="invalid-feedback" v-if="$v.collectionTag.$invalid">
+                            Ce champs ne peut pas être vide !
+                        </div>
                     </div>
                 </div>
 
@@ -75,8 +81,7 @@ import MapField from '@/components/MapField'
 import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
 import config from '@/config.js'
-
-console.log(config)
+import { required } from 'vuelidate/lib/validators'
 
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
@@ -88,6 +93,22 @@ export default {
             declarations:   [],
             globalTag:      'Elements',
             collectionTag:  'Element'
+        }
+    },
+    validations: {
+        globalTag: {
+            required
+        },
+        collectionTag: {
+            required
+        },
+        mapFields: {
+            required,
+            $each: {
+                name: {
+                    required
+                }
+            }
         }
     },
     components: {
