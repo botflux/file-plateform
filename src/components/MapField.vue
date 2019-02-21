@@ -2,21 +2,21 @@
     <div>
         <div class="form-group">   
             <label>Nom</label>
-            <input type="text" v-model="field.name">
+            <input type="text" v-model="field.name" class="form-control">
         </div>
         <div class="d-flex">
-            <div class="form-group mr-4" v-for="(header, i) in headers" :key="`header-${fieldId}-${i}`">
-                <input type="checkbox" v-model="field.columns" :id="header + '-' + fieldId" :value="header">
-                <label :for="header + '-' + fieldId">{{ header }}</label>
+            <div class="form-group mr-4 custom-control custom-checkbox" v-for="(header, i) in headers" :key="`header-${fieldId}-${i}`">
+                <input type="checkbox" v-model="field.columns" :id="header + '-' + fieldId" :value="header" class="custom-control-input">
+                <label :for="header + '-' + fieldId" class="custom-control-label">{{ header }}</label>
             </div>
         </div>
         <div class="form-group" v-if="!hasColumn">
             <label>Valeur statique</label>
-            <input type="text" v-model="field.value">
+            <input type="text" v-model="field.value" class="form-control">
         </div>
         <div class="form-group" v-if="hasMultipleColumns">
             <label>Caractère de liaison</label>
-            <input type="text" v-model="field.linkingCharacter">
+            <input type="text" v-model="field.linkingCharacter" class="form-control">
         </div>
     </div>
 </template>

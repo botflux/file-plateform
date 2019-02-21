@@ -11,52 +11,53 @@
                 <csv-header v-for="(header, i) in headers" :key="i" :header="header" />
             </csv-headers-container>
         </div>
-        <div class="d-flex flex-column">
-            <h3>Définition des champs du XML</h3>
-            <button class="btn btn-success mr-auto" @click="addMapField()">Ajouter un champs</button>
-            <div class="d-flex" v-for="(mapField, i) in mapFields" :key="`map-field-${i}`">
-                <map-field :field="mapField" :field-id="i" />
-                <button class="btn btn-danger" @click="deleteMapField(i)">Supprimer</button>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-md-6">
+                <div class="d-flex flex-column">
+                    <h3 class="mb-3">Définition des champs du XML</h3>
+                    <button class="btn btn-success mr-auto mb-3" @click="addMapField()">Ajouter un champs</button>
+                    <div class="d-flex align-items-start py-3 border-bottom border-top" v-for="(mapField, i) in mapFields" :key="`map-field-${i}`">
+                        <map-field :field="mapField" :field-id="i" />
+                        <button class="btn btn-danger ml-3" @click="deleteMapField(i)">Supprimer</button>
+                    </div>
+                </div>
+
                 <div>
-                    <h3>Définition des balises</h3>
-                    <div class="form-group">
+                    <h3 class="mb-3">Définition des balises</h3>
+                    <div class="form-group mb-4">
                         <label>Nom de la balise globale</label>
-                        <input type="text" v-model="globalTag">
+                        <input type="text" v-model="globalTag" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Nom de la balise d'entité</label>
-                        <input type="text" v-model="collectionTag">
+                        <input type="text" v-model="collectionTag" class="form-control">
                     </div>
                 </div>
 
-                <div class="d-flex flex-column">
-                    <h3>Définition des attributs de l'élément global</h3>
-                    <button class="btn btn-success mr-auto" @click="addAttribute()">Ajouter un attribut</button>
-                    <div class="d-flex" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
+                <div class="d-flex flex-column mt-5">
+                    <h3 class="mb-3">Définition des attributs de l'élément global</h3>
+                    <button class="btn btn-success mr-auto mb-4" @click="addAttribute()">Ajouter un attribut</button>
+                    <div class="py-3 border-bottom border-top" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
                         <xml-attribute :attribute="attribute" :attributeId="i" />
-                        <button class="btn btn-danger" @click="deleteAttribute(i)">Supprimer</button>
+                        <button class="btn btn-danger" @click="removeAttribute(i)">Supprimer</button>
                     </div>
                 </div>
 
-                <div class="d-flex flex-column">
-                    <h3>Définition des déclarations du fichier XML</h3>
-                    <button class="btn btn-success mr-auto" @click="addDeclaration()">Ajouter une déclaration</button>
-                    <div class="d-flex" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
+                <div class="d-flex flex-column mt-5">
+                    <h3 class="mb-3">Définition des déclarations du fichier XML</h3>
+                    <button class="btn btn-success mr-auto mb-3" @click="addDeclaration()">Ajouter une déclaration</button>
+                    <div class="py-3 border-bottom border-top" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
                         <xml-declaration :declaration="declaration" :declarationId="i" />
-                        <button class="btn btn-danger" @click="deleteDeclaration(i)">Supprimer</button>
+                        <button class="btn btn-danger" @click="removeDeclaration(i)">Supprimer</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="jumbotron">
+                <div class="jumbotron sticky-top my-5 py-4">
                     <div>{{declarationTag|surround}}</div>
                     <div>{{ globalOpeningTag | surround }}</div>
                     <div class="ml-3">{{ collectionTag | surround }}</div>
-                    <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}Value{{ mapField.name | addSlash | surround }}</div>
+                    <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}{{ mapField.columns.length == 0 ? mapField.value : mapField.columns.join(' + ') }}{{ mapField.name | addSlash | surround }}</div>
                     <div class="ml-3">{{ collectionTag | addSlash | surround }}</div>
                     <div>{{ globalTag | addSlash | surround }}</div>
                 </div>

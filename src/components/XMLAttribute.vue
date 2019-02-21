@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex">
+    <div>
         <div class="form-group">
             <label>Nom de l'attribut</label>
             <input type="text" v-model="attribute.name" class="form-control">
