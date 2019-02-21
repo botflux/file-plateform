@@ -171,12 +171,23 @@ export default {
             this.mapFields = this.mapFields.filter ((mf, i) => i != index)
         },
         convert () {
+            const dataConverterConfig = {
+                documentRoot: this.globalTag,
+                collectionRoot: this.collectionTag,
+                documentAttributes: this.attributes,
+                documentDeclaration: this.declarations,
+                fields: this.mapFields
+            }
+
             fetch (config.backendRoot+'/csv-to-xml', {
-                method: 'post'
+                method: 'post',
+                body: {
+                    map: dataConverterConfig
+                }
             })
             .then(res => res.json())
             .then(o => {
-                
+                console.log(o)
             })
         }
     },
