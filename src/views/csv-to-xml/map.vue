@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <button class="btn btn-primary" v-if="hasColumn && columnsAreValid" @click="convert()">Suivant</button>
+            <router-link class="btn btn-primary" :to="{ name: 'csv-to-xml-download' }">Suivant</router-link>
         </div>
         <div class="d-flex flex-column mb-5">
             <h2 class="mb-5">Définition de la configuration</h2>
@@ -74,9 +74,11 @@ import CSVHeadersContainer from '@/components/CSVHeadersContainer'
 import MapField from '@/components/MapField'
 import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
-import config from '@/config'
+import config from '@/config.js'
 
-const { mapGetters, mapState } = createNamespacedHelpers('csvToXml')
+console.log(config)
+
+const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
     data () {
@@ -101,7 +103,12 @@ export default {
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
-            types.CSV_TO_XML_HEADERS_ARE_VALID
+            types.CSV_TO_XML_HEADERS_ARE_VALID,
+            types.CSV_TO_XML_FIELDS_ARE_VALID,
+            types.CSV_TO_XML_GLOBAL_TAG_IS_VALID,
+            types.CSV_TO_XML_COLLECTION_TAG_IS_VALID,
+            types.CSV_TO_XML_DECLARATIONS_ARE_VALID,
+            types.CSV_TO_XML_ATTRIBUTES_ARE_VALID,
         ]),
         hasColumn () {
             return (this.mapFields.length > 0)
@@ -126,6 +133,15 @@ export default {
             }, '')
 
             return `?xml ${declarationString}?`
+        },
+        dataAreValid () {
+            return (
+                this[types.CSV_TO_XML_FIELDS_ARE_VALID] &&
+                this[types.CSV_TO_XML_GLOBAL_TAG_IS_VALID] &&
+                this[types.CSV_TO_XML_COLLECTION_TAG_IS_VALID] &&
+                this[types.CSV_TO_XML_DECLARATIONS_ARE_VALID] &&
+                this[types.CSV_TO_XML_ATTRIBUTES_ARE_VALID]
+            )
         }
     },
     filters: {
@@ -170,7 +186,25 @@ export default {
             // eslint-disable-next-line
             this.mapFields = this.mapFields.filter ((mf, i) => i != index)
         },
-        convert () {
+        ...mapActions([
+            types.SET_CSV_TO_XML_GLOBAL_TAG,
+            types.SET_CSV_TO_XML_COLLECTION_TAG,
+            types.SET_CSV_TO_XML_ATTRIBUTES,
+            types.SET_CSV_TO_XML_DECLARATIONS,
+            types.SET_CSV_TO_XML_FIELDS,
+            types.SET_CSV_TO_XML_DOWNLOAD
+        ])
+    },
+    /* eslinl-disable */
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
+                next({ name: 'csv-to-xml' })
+            }
+        })
+    },
+    beforeRouteLeave (to, from, next) {
+        if (to.name == 'csv-to-xml-download') {
             const dataConverterConfig = {
                 documentRoot: this.globalTag,
                 collectionRoot: this.collectionTag,
@@ -187,17 +221,26 @@ export default {
             })
             .then(res => res.json())
             .then(o => {
-                console.log(o)
+                this[types.SET_CSV_TO_XML_GLOBAL_TAG] (this.globalTag)
+                this[types.SET_CSV_TO_XML_COLLECTION_TAG] (this.collectionTag)
+                this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes)
+                this[types.SET_CSV_TO_XML_DECLARATIONS] (this.declarations)
+                this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
+                this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
+
+                return this.dataAreValid
             })
+            .then(isValid => {
+                if (isValid) {
+                    next()
+                } else {
+                    console.log('prob')
+                }
+            })
+
         }
-    },
-    /* eslinl-disable */
-    beforeRouteEnter (to, from, next) {
-        next(vm => {
-            if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
-                next({ name: 'csv-to-xml' })
-            }
-        })
-    },
+
+        next()
+    }
 }
 </script>
