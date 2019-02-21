@@ -5,6 +5,9 @@ import store from './store'
 import 'bootstrap/dist/js/bootstrap'
 import 'jquery'
 import 'popper.js'
+import Vuelidate from 'vuelidate'
+
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false
 
