@@ -18,7 +18,17 @@ const mutations = {
     [types.SET_CSV_TO_XML_GLOBAL_TAG]: (state, globalTag) => state.globalTag = globalTag,
     [types.SET_CSV_TO_XML_COLLECTION_TAG]: (state, collectionTag) => state.collectionTag = collectionTag,
     [types.SET_CSV_TO_XML_FIELDS]: (state, fields) => state.fields = fields,
-    [types.SET_CSV_TO_XML_DOWNLOAD]: (state, download) => state.download = download
+    [types.SET_CSV_TO_XML_DOWNLOAD]: (state, download) => state.download = download,
+    [types.CSV_TO_XML_CLEAN]:       state => {
+        state.download = ''
+        state.collectionTag = ''
+        state.globalTag = ''
+        state.headers = []
+        state.attributes = []
+        state.declarations = []
+        state.fields = []
+        state.file = {}
+    }
 }
 const actions = {
     [types.SET_CSV_TO_XML_FILE]:    ({ commit }, file) => commit(types.SET_CSV_TO_XML_FILE, file),
@@ -28,7 +38,8 @@ const actions = {
     [types.SET_CSV_TO_XML_GLOBAL_TAG]: ({ commit }, globalTag) => commit (types.SET_CSV_TO_XML_GLOBAL_TAG, globalTag),
     [types.SET_CSV_TO_XML_COLLECTION_TAG]: ({ commit }, collectionTag) => commit(types.SET_CSV_TO_XML_COLLECTION_TAG, collectionTag),
     [types.SET_CSV_TO_XML_FIELDS]: ({ commit }, fields) => commit(types.SET_CSV_TO_XML_FIELDS, fields),
-    [types.SET_CSV_TO_XML_DOWNLOAD]: ({ commit }, download) => commit(types.SET_CSV_TO_XML_DOWNLOAD, download)
+    [types.SET_CSV_TO_XML_DOWNLOAD]: ({ commit }, download) => commit(types.SET_CSV_TO_XML_DOWNLOAD, download),
+    [types.CSV_TO_XML_CLEAN]:       ({ commit }) => commit(types.CSV_TO_XML_CLEAN)
 }
 const getters = {
     [types.CSV_TO_XML_FILE_IS_VALID]:       state => (state.file.name !== undefined),
