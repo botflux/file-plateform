@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <a href="#" class="btn btn-primary" v-if="hasColumn && columnsAreValid">Suivant</a>
+            <button class="btn btn-primary" v-if="hasColumn && columnsAreValid" @click="convert()">Suivant</button>
         </div>
         <div class="d-flex flex-column mb-5">
             <h2 class="mb-5">Définition de la configuration</h2>
@@ -19,6 +19,24 @@
                 <button class="btn btn-danger" @click="deleteMapField(i)">Supprimer</button>
             </div>
         </div>
+
+        <div class="d-flex flex-column">
+            <h3>Définition des attributs de l'élément global</h3>
+            <button class="btn btn-success mr-auto" @click="addAttribute()">Ajouter un attribut</button>
+            <div class="d-flex" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
+                <xml-attribute :attribute="attribute" :attributeId="i" />
+                <button class="btn btn-danger" @click="deleteAttribute(i)">Supprimer</button>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <h3>Définition des déclarations du fichier XML</h3>
+            <button class="btn btn-success mr-auto" @click="addDeclaration()">Ajouter une déclaration</button>
+            <div class="d-flex" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
+                <xml-declaration :declaration="declaration" :declarationId="i" />
+                <button class="btn btn-danger" @click="deleteDeclaration(i)">Supprimer</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -28,19 +46,26 @@ import * as types from '@/stores/types'
 import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
 import MapField from '@/components/MapField'
+import XMLAttribute from '@/components/XMLAttribute'
+import XMLDeclaration from '@/components/XMLDeclaration'
+import config from '@/config'
 
 const { mapGetters, mapState } = createNamespacedHelpers('csvToXml')
 
 export default {
     data () {
         return {
-            mapFields: []
+            mapFields:      [],
+            attributes:     [],
+            declarations:   []
         }
     },
     components: {
         'csv-header': CSVHeader, 
         'csv-headers-container': CSVHeadersContainer,
-        MapField
+        MapField,
+        'xml-attribute': XMLAttribute,
+        'xml-declaration': XMLDeclaration
     },
     computed: {
         ...mapState({
@@ -71,10 +96,36 @@ export default {
                 errors: {}
             })
         },
+        addDeclaration () {
+            this.declarations.push({
+                name: '',
+                value: ''
+            })
+        },
+        removeDeclaration (index) {
+            this.declarations = this.declarations.filter ((d, i) => i != index)
+        },
+        addAttribute () {
+            this.attributes.push({
+                name: '',
+                value: ''
+            })
+        },
+        removeAttribute (index) {
+            this.attributes = this.attributes.filter ((a, i) => i != index)
+        },
         deleteMapField (index) {
-            // console.log('i', index)
-            // eslint-disable-next-linefunction (index) {
+            // eslint-disable-next-line
             this.mapFields = this.mapFields.filter ((mf, i) => i != index)
+        },
+        convert () {
+            fetch (config.backendRoot+'/csv-to-xml', {
+                method: 'post'
+            })
+            .then(res => res.json())
+            .then(o => {
+                
+            })
         }
     },
     /* eslinl-disable */
@@ -84,6 +135,6 @@ export default {
                 next({ name: 'csv-to-xml' })
             }
         })
-    }
+    },
 }
 </script>
