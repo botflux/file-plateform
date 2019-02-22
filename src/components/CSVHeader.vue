@@ -1,7 +1,5 @@
 <template>
-    <td>
-        {{ header }}
-    </td>
+    <span>{{ header }}</span>
 </template>
 
 <script>

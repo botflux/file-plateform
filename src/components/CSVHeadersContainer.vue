@@ -1,10 +1,13 @@
 <template>
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <th scope="row">En-têtes</th>
-                <slot />
-            </tr>
-        </tbody>
-    </table>
+    <p><slot /></p>
 </template>
+
+<style scoped>
+    p > span::after {
+        content: ", ";
+    }
+
+    p > span:last-child::after {
+        content: ".";
+    }
+</style>
