@@ -8,10 +8,12 @@
             </div>
         </div>
         <div class="d-flex flex-wrap">
+            <v-select v-model="field.columns" :options="headers" multiple></v-select>
+<!--             
             <div class="form-group mr-4 custom-control custom-checkbox" v-for="(header, i) in headers" :key="`header-${fieldId}-${i}`">
                 <input type="checkbox" v-model="field.columns" :id="header + '-' + fieldId" :value="header" class="custom-control-input">
                 <label :for="header + '-' + fieldId" class="custom-control-label">{{ header }}</label>
-            </div>
+            </div> -->
         </div>
         <div class="form-group" v-if="!hasColumn">
             <label>Valeur statique</label>

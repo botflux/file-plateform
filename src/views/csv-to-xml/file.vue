@@ -72,12 +72,14 @@ export default {
             })
             .then(res => res.json())
             .then(o => {
+                console.log(o)
                 this[types.SET_CSV_TO_XML_FILE] (this.file)
                 this[types.SET_CSV_TO_XML_HEADERS] (o.body.headers)
                 return (this[types.CSV_TO_XML_HEADERS_ARE_VALID] && this[types.CSV_TO_XML_FILE_IS_VALID])
             })
             /* eslint-disable */
             .then(isValid => {
+                console.log(isValid)
                 this.isValid = isValid
             })
             .then(_ => {

@@ -6,6 +6,9 @@ import 'bootstrap/dist/js/bootstrap'
 import 'jquery'
 import 'popper.js'
 import Vuelidate from 'vuelidate'
+import VueSelect from 'vue-select'
+
+Vue.component('v-select', VueSelect)
 
 Vue.use(Vuelidate)
 
