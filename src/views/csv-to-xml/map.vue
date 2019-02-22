@@ -90,7 +90,7 @@ export default {
         return {
             mapFields:      [],
             attributes:     [],
-            declarations:   [],
+            declarations:   [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
             globalTag:      'Elements',
             collectionTag:  'Element'
         }
