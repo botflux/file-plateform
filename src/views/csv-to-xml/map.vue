@@ -249,7 +249,8 @@ export default {
                 this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
                 this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
 
-                return this.dataAreValid
+                // return this.dataAreValid
+                return true
             })
             .then(isValid => {
                 if (isValid) {

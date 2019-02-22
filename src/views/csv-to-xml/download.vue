@@ -36,13 +36,14 @@ export default {
     },
     // eslint-disable-next-line
     beforeRouteEnter (to, from, next) {
-        next(vm => {
-            if (!(vm[types.CSV_TO_XML_GLOBAL_TAG_IS_VALID] && vm[types.CSV_TO_XML_DOWNLOAD_IS_VALID]
-            && vm[types.CSV_TO_XML_COLLECTION_TAG_IS_VALID] && vm[types.CSV_TO_XML_FIELDS_ARE_VALID]
-            && vm[types.CSV_TO_XML_ATTRIBUTES_ARE_VALID] && vm[types.CSV_TO_XML_DECLARATIONS_ARE_VALID])) {
-                next({ name: 'csv-to-xml-map' })
-            }
-        })
+        next()
+        // next(vm => {
+        //     if (!(vm[types.CSV_TO_XML_GLOBAL_TAG_IS_VALID] && vm[types.CSV_TO_XML_DOWNLOAD_IS_VALID]
+        //     && vm[types.CSV_TO_XML_COLLECTION_TAG_IS_VALID] && vm[types.CSV_TO_XML_FIELDS_ARE_VALID]
+        //     && vm[types.CSV_TO_XML_ATTRIBUTES_ARE_VALID] && vm[types.CSV_TO_XML_DECLARATIONS_ARE_VALID])) {
+        //         next({ name: 'csv-to-xml-map' })
+        //     }
+        // })
     }
 }
 </script>
