@@ -2,7 +2,10 @@
     <div>
         <div class="form-group">   
             <label>Nom</label>
-            <input type="text" v-model="field.name" class="form-control">
+            <input type="text" v-model="field.name" class="form-control" :class="{ 'is-invalid': $v.field.name.$invalid }">
+            <div class="invalid-feedback" v-if="$v.field.name.$invalid">
+                Vous devez spécifier un nom pour le champs !
+            </div>
         </div>
         <div class="d-flex">
             <div class="form-group mr-4 custom-control custom-checkbox" v-for="(header, i) in headers" :key="`header-${fieldId}-${i}`">
@@ -23,6 +26,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 
 const { mapState } = createNamespacedHelpers('csvToXml')
 
@@ -51,5 +55,12 @@ export default {
             }
         }
     },
+    validations: {
+        field: {
+            name: {
+                required
+            }
+        }
+    }
 }
 </script>
