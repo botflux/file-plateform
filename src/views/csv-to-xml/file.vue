@@ -62,8 +62,13 @@ export default {
         valid () {
             this.requested = true
             this.responded = false
+
+            const formData = new FormData()
+            formData.append('file', this.file)
+
             fetch(config.backendRoot+'/csv-to-xml/get-headers', {
-                method: 'post'
+                method: 'post',
+                body: formData
             })
             .then(res => res.json())
             .then(o => {
