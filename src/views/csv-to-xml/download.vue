@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a :href="downloadUrl" class="btn btn-primary">Télécharger le XML</a>
+        <a :href="downloadUrl" download class="btn btn-primary">Télécharger le XML</a>
     </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
             types.CSV_TO_XML_DECLARATIONS_ARE_VALID
         ]),
         downloadUrl () {
+            console.log(this.download)
             return config.backendRoot + '/' + this.download
         }
     },

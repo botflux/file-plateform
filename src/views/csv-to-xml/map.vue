@@ -120,7 +120,8 @@ export default {
     },
     computed: {
         ...mapState({
-            headers: state => state.headers
+            headers: state => state.headers,
+            file: state => state.file
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
@@ -229,16 +230,28 @@ export default {
             const dataConverterConfig = {
                 documentRoot: this.globalTag,
                 collectionRoot: this.collectionTag,
-                documentAttributes: this.attributes,
-                documentDeclaration: this.declarations,
+                documentAttributes: this.attributes.reduce((prev, cur) => {
+                    return {
+                        ...prev,
+                        [cur.name]: cur.value
+                    }
+                }, {}),
+                documentDeclaration: this.declarations.reduce((prev, cur) => {
+                    return {
+                        ...prev,
+                        [cur.name]: cur.value
+                    }
+                }, {}),
                 fields: this.mapFields
             }
 
+            const formData = new FormData()
+            formData.append('map', JSON.stringify(dataConverterConfig))
+            formData.append('file', this.file)
+
             fetch (config.backendRoot+'/csv-to-xml', {
                 method: 'post',
-                body: {
-                    map: dataConverterConfig
-                }
+                body: formData
             })
             .then(res => res.json())
             .then(o => {
@@ -248,6 +261,7 @@ export default {
                 this[types.SET_CSV_TO_XML_DECLARATIONS] (this.declarations)
                 this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
                 this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
+                console.log(o.body.file)
 
                 // return this.dataAreValid
                 return true
