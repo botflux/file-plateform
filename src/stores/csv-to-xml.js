@@ -42,10 +42,10 @@ const actions = {
     [types.CSV_TO_XML_CLEAN]:       ({ commit }) => commit(types.CSV_TO_XML_CLEAN)
 }
 const getters = {
-    [types.CSV_TO_XML_FILE_IS_VALID]:       state => (state.file.name !== undefined),
+    [types.CSV_TO_XML_FILE_IS_VALID]:       state => (state.file !== undefined && state.file !== null && state.file.name !== null && state.file.name !== undefined),
     [types.CSV_TO_XML_HEADERS_ARE_VALID]:   state => (Array.isArray(state.headers) && state.headers.length > 0),
-    [types.CSV_TO_XML_ATTRIBUTES_ARE_VALID]:state => (Array.isArray(state.attributes) && state.attributes.length > 0),
-    [types.CSV_TO_XML_DECLARATIONS_ARE_VALID]: state => (Array.isArray(state.declarations) && state.declarations.length > 0),
+    [types.CSV_TO_XML_ATTRIBUTES_ARE_VALID]:state => (Array.isArray(state.attributes)),
+    [types.CSV_TO_XML_DECLARATIONS_ARE_VALID]: state => (Array.isArray(state.declarations)),
     [types.CSV_TO_XML_GLOBAL_TAG_IS_VALID]: state => (state.globalTag !== ''),
     [types.CSV_TO_XML_COLLECTION_TAG_IS_VALID]: state => (state.collectionTag !== ''),
     [types.CSV_TO_XML_FIELDS_ARE_VALID]:    state => (Array.isArray(state.fields) && state.fields.length > 0),
