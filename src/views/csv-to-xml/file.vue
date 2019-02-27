@@ -56,8 +56,8 @@ export default {
     methods: {
         updateFile (files) {
             this.file = files[0] || {}
+            this[types.SET_CSV_TO_XML_FILE] (files[0])
             this.$v.file.name.$touch()
-
         },
         valid () {
             this.requested = true
@@ -72,8 +72,6 @@ export default {
             })
             .then(res => res.json())
             .then(o => {
-                console.log(o)
-                this[types.SET_CSV_TO_XML_FILE] (this.file)
                 this[types.SET_CSV_TO_XML_HEADERS] (o.body.headers)
                 return (this[types.CSV_TO_XML_HEADERS_ARE_VALID] && this[types.CSV_TO_XML_FILE_IS_VALID])
             })
