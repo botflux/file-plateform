@@ -11,7 +11,7 @@
             <div class="invalid-feedback" v-if="!$v.file.name.required">
                 Un fichier doit être renseigné !
             </div>
-            <div class="invalid-feedback" v-else-if="$v.file.name.mustBeCSV">
+            <div class="invalid-feedback" v-else-if="$v.file.name.MustBeCSV">
                 Le fichier doit être au format CSV !
             </div>
         </div>
@@ -27,12 +27,8 @@ import { createNamespacedHelpers } from 'vuex'
 import * as types from '@/stores/types'
 import config from '@/config'
 import { required } from 'vuelidate/lib/validators'
+import MustBeCSV from '@/validations/must-be-csv'
 
-const mustBeCSV = value => {
-    console.log(value)
-    const exploded = (value || '').split('.')[1] || ''
-    return (exploded.toLowerCase() !== 'csv')
-}
 const { mapGetters, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
@@ -95,7 +91,7 @@ export default {
         file: {
             name: {
                 required,
-                mustBeCSV
+                MustBeCSV
             }
         }
     },

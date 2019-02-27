@@ -1,12 +1,12 @@
 <template>
     <div class="character-checker-index">
         <div class="jumbotron mb-4">
-            <div class="container">
+            <b-container>
                 <h1 class="display-4">Vérification de caractères</h1>
                 <p class="lead">Ce service vous permet de vérifier que le fichier que vous déposez ne contient que des caractère compatible avec la norme ISO 8859-1.</p>
-            </div>
+            </b-container>
         </div>
-        <div class="container mb-4">
+        <b-container class="mb-4">
             <h2 class="mb-5">Déposer votre fichier</h2>  
             <div class="input-group mb-2">
                 <div class="custom-file">
@@ -21,22 +21,22 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-        </div>
-        <div class="container" v-if="(this.responded) && fileIsUploaded">
-            <div class="row" v-if="issues.length > 0">
-                <div class="col-md-4" v-for="issue in issues" :key="issue.id">
+        </b-container>
+        <b-container v-if="(this.responded) && fileIsUploaded">
+            <b-row v-if="issues.length > 0">
+                <b-col cols="4" v-for="issue in issues" :key="issue.id">
                     <card class="mb-2">
                         <card-title>Ligne {{ issue.line }}</card-title>
                         <card-jumbotron>
                             <card-text>{{ issue.sample }}</card-text>
                         </card-jumbotron>
                     </card>
-                </div>
-            </div>
-            <div class="row" v-else>
+                </b-col>
+            </b-row>
+            <b-row v-else>
                 <p>Il n'y a pas d'erreur</p>
-            </div>
-        </div>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
