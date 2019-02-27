@@ -3,7 +3,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import CardTitle from '@/components/CardTitle.vue'
 import CardText from '@/components/CardText.vue'
 import CardJumbotron from '@/components/CardJumbotron.vue'
-import Card from '@/components/CardTitle.vue'
+import MapField from '@/components/MapField.vue'
 
 describe('HelloWorld.vue', () => {
   it('renders props.msg when passed', () => {
@@ -49,4 +49,3 @@ describe('Cards', () => {
     expect(wrapper.text()).toMatch(jumbotron)
   })
 })
-

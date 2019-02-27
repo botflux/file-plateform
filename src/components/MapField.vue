@@ -51,7 +51,6 @@ export default {
     watch: {
         // eslint-disable-next-line
         field (newValue, oldValue) {
-            console.log('m')
             if (newValue.columns.length == 1) {
                 this.field.linkingCharacter = ''
             }
