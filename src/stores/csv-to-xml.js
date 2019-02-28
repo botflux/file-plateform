@@ -1,13 +1,14 @@
 import * as types from './types'
+import { getField, updateField } from 'vuex-map-fields'
 
 const state = {
     file: {},
     headers: [],
     attributes: [],
     declarations: [],
-    fields: [],
-    globalTag: '',
-    collectionTag: '',
+    fields: [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '' } ],
+    globalTag: 'Elements',
+    collectionTag: 'Element',
     download: ''
 }
 const mutations = {
@@ -28,7 +29,8 @@ const mutations = {
         state.declarations = []
         state.fields = []
         state.file = {}
-    }
+    },
+    updateField
 }
 const actions = {
     [types.SET_CSV_TO_XML_FILE]:    ({ commit }, file) => commit(types.SET_CSV_TO_XML_FILE, file),
@@ -49,10 +51,12 @@ const getters = {
     [types.CSV_TO_XML_GLOBAL_TAG_IS_VALID]: state => (state.globalTag !== ''),
     [types.CSV_TO_XML_COLLECTION_TAG_IS_VALID]: state => (state.collectionTag !== ''),
     [types.CSV_TO_XML_FIELDS_ARE_VALID]:    state => (Array.isArray(state.fields) && state.fields.length > 0),
-    [types.CSV_TO_XML_DOWNLOAD_IS_VALID]:   state => (state.download !== '')
+    [types.CSV_TO_XML_DOWNLOAD_IS_VALID]:   state => (state.download !== ''),
+    getField
 }
 
 export default {
+    strict: true,
     namespaced: true,
     state,
     mutations,

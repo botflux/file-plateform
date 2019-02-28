@@ -24,23 +24,7 @@
 
                 <map-field-container></map-field-container>
 
-                <div>
-                    <h3 class="mb-3">Définition des balises</h3>
-                    <div class="form-group mb-4">
-                        <label>Nom de la balise globale</label>
-                        <input type="text" v-model="globalTag" class="form-control" :class="{ 'is-invalid': $v.globalTag.$invalid }">
-                        <div class="invalid-feedback" v-if="$v.globalTag.$invalid">
-                            Ce champs ne peut pas être vide !
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Nom de la balise d'entité</label>
-                        <input type="text" v-model="collectionTag" class="form-control" :class="{ 'is-invalid': $v.collectionTag.$invalid }">
-                        <div class="invalid-feedback" v-if="$v.collectionTag.$invalid">
-                            Ce champs ne peut pas être vide !
-                        </div>
-                    </div>
-                </div>
+                <xml-tags></xml-tags>
 
                 <div class="d-flex flex-column mt-5">
                     <h3 class="mb-3">Définition des attributs de l'élément global</h3>
@@ -76,8 +60,8 @@ import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
 import XMLPreview from '@/components/XMLPreview'
 // import config from '@/config.js'
-import { required } from 'vuelidate/lib/validators'
 import MapFieldContainer from '@/components/MapFieldContainer'
+import XMLTags from '@/components/XMLTags'
 
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
@@ -86,17 +70,7 @@ export default {
         return {
             attributes:     [],
             declarations:   [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
-            globalTag:      'Elements',
-            collectionTag:  'Element'
         }
-    },
-    validations: {
-        globalTag: {
-            required
-        },
-        collectionTag: {
-            required
-        },
     },
     components: {
         'csv-header': CSVHeader, 
@@ -104,6 +78,7 @@ export default {
         'xml-attribute': XMLAttribute,
         'xml-declaration': XMLDeclaration,
         'xml-preview': XMLPreview,
+        'xml-tags': XMLTags,
         MapFieldContainer
     },
     computed: {
