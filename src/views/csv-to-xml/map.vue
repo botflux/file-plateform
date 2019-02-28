@@ -61,14 +61,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="jumbotron sticky-top my-5 py-4">
-                    <div>{{declarationTag|surround}}</div>
-                    <div>{{ globalOpeningTag | surround }}</div>
-                    <div class="ml-3">{{ collectionTag | surround }}</div>
-                    <!-- <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}{{ mapField.columns.length == 0 ? mapField.value : mapField.columns.join(' + ') }}{{ mapField.name | addSlash | surround }}</div> -->
-                    <div class="ml-3">{{ collectionTag | addSlash | surround }}</div>
-                    <div>{{ globalTag | addSlash | surround }}</div>
-                </div>
+                <xml-preview class="sticky-top my-5"></xml-preview>
             </div>
         </div>
     </div>
@@ -81,6 +74,7 @@ import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
 import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
+import XMLPreview from '@/components/XMLPreview'
 // import config from '@/config.js'
 import { required } from 'vuelidate/lib/validators'
 import MapFieldContainer from '@/components/MapFieldContainer'
@@ -109,12 +103,14 @@ export default {
         'csv-headers-container': CSVHeadersContainer,
         'xml-attribute': XMLAttribute,
         'xml-declaration': XMLDeclaration,
+        'xml-preview': XMLPreview,
         MapFieldContainer
     },
     computed: {
         ...mapState({
             headers: state => state.headers,
-            file: state => state.file
+            file: state => state.file,
+            fields: state => state.fields
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
@@ -125,20 +121,6 @@ export default {
             types.CSV_TO_XML_DECLARATIONS_ARE_VALID,
             types.CSV_TO_XML_ATTRIBUTES_ARE_VALID,
         ]),
-        globalOpeningTag () {
-            const attrString = this.attributes.reduce((prev, cur) => {
-                return `${prev} ${cur.name}="${cur.value}"`
-            }, '')
-
-            return this.globalTag + attrString
-        },
-        declarationTag () {
-            const declarationString = this.declarations.reduce((prev, cur) => {
-                return `${prev} ${cur.name}="${cur.value}"`
-            }, '')
-
-            return `?xml ${declarationString}?`
-        },
         dataAreValid () {
             return (
                 this[types.CSV_TO_XML_FIELDS_ARE_VALID] &&
