@@ -13,14 +13,16 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-6">
-                <div class="d-flex flex-column">
+                <!-- <div class="d-flex flex-column">
                     <h3 class="mb-3">Définition des champs du XML</h3>
                     <button class="btn btn-success mr-auto mb-3" @click="addMapField()">Ajouter un champs</button>
                     <div class="d-flex align-items-start py-3 border-bottom border-top" v-for="(mapField, i) in $v.mapFields.$each.$iter" :key="`map-field-${i}`">
                         <map-field :field="mapField" :field-id="Number.parseInt(i)" />
                         <button class="btn btn-danger ml-3" @click="deleteMapField(i)">Supprimer</button>
                     </div>
-                </div>
+                </div> -->
+
+                <map-field-container></map-field-container>
 
                 <div>
                     <h3 class="mb-3">Définition des balises</h3>
@@ -63,7 +65,7 @@
                     <div>{{declarationTag|surround}}</div>
                     <div>{{ globalOpeningTag | surround }}</div>
                     <div class="ml-3">{{ collectionTag | surround }}</div>
-                    <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}{{ mapField.columns.length == 0 ? mapField.value : mapField.columns.join(' + ') }}{{ mapField.name | addSlash | surround }}</div>
+                    <!-- <div class="ml-5" v-for="(mapField, i) in mapFields" :key="`preview-${i}`">{{ mapField.name | surround }}{{ mapField.columns.length == 0 ? mapField.value : mapField.columns.join(' + ') }}{{ mapField.name | addSlash | surround }}</div> -->
                     <div class="ml-3">{{ collectionTag | addSlash | surround }}</div>
                     <div>{{ globalTag | addSlash | surround }}</div>
                 </div>
@@ -77,18 +79,17 @@ import { createNamespacedHelpers } from 'vuex'
 import * as types from '@/stores/types'
 import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
-import MapField from '@/components/MapField'
 import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
-import config from '@/config.js'
-import { required, requiredIf } from 'vuelidate/lib/validators'
+// import config from '@/config.js'
+import { required } from 'vuelidate/lib/validators'
+import MapFieldContainer from '@/components/MapFieldContainer'
 
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
     data () {
         return {
-            mapFields:      [],
             attributes:     [],
             declarations:   [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
             globalTag:      'Elements',
@@ -102,26 +103,13 @@ export default {
         collectionTag: {
             required
         },
-        mapFields: {
-            required,
-            $each: {
-                name: {
-                    required
-                },
-                value: {
-                    required: requiredIf (function (model) {
-                        return model.columns.length == 0
-                    })
-                }
-            }
-        }
     },
     components: {
         'csv-header': CSVHeader, 
         'csv-headers-container': CSVHeadersContainer,
-        MapField,
         'xml-attribute': XMLAttribute,
-        'xml-declaration': XMLDeclaration
+        'xml-declaration': XMLDeclaration,
+        MapFieldContainer
     },
     computed: {
         ...mapState({
@@ -137,16 +125,6 @@ export default {
             types.CSV_TO_XML_DECLARATIONS_ARE_VALID,
             types.CSV_TO_XML_ATTRIBUTES_ARE_VALID,
         ]),
-        hasColumn () {
-            return (this.mapFields.length > 0)
-        },
-        columnsAreValid () {
-            return this.mapFields.reduce((prev, cur) => {
-                if (Object.keys(cur.errors) > 0) return false
-
-                return prev
-            }, true)
-        },
         globalOpeningTag () {
             const attrString = this.attributes.reduce((prev, cur) => {
                 return `${prev} ${cur.name}="${cur.value}"`
@@ -182,14 +160,6 @@ export default {
         }
     },
     methods: {
-        addMapField () {
-            this.mapFields.push({
-                name: '',
-                columns: [],
-                linkingCharacter: '',
-                value: ''
-            })
-        },
         addDeclaration () {
             this.declarations.push({
                 name: '',
@@ -208,10 +178,6 @@ export default {
         removeAttribute (index) {
             this.attributes = this.attributes.filter ((a, i) => i != index)
         },
-        deleteMapField (index) {
-            // eslint-disable-next-line
-            this.mapFields = this.mapFields.filter ((mf, i) => i != index)
-        },
         ...mapActions([
             types.SET_CSV_TO_XML_GLOBAL_TAG,
             types.SET_CSV_TO_XML_COLLECTION_TAG,
@@ -229,58 +195,58 @@ export default {
     //         }
     //     })
     // },
-    beforeRouteLeave (to, from, next) {
-        if (to.name == 'csv-to-xml-download') {
-            const dataConverterConfig = {
-                documentRoot: this.globalTag,
-                collectionRoot: this.collectionTag,
-                documentAttributes: this.attributes.reduce((prev, cur) => {
-                    return {
-                        ...prev,
-                        [cur.name]: cur.value
-                    }
-                }, {}),
-                documentDeclaration: this.declarations.reduce((prev, cur) => {
-                    return {
-                        ...prev,
-                        [cur.name]: cur.value
-                    }
-                }, {}),
-                fields: this.mapFields
-            }
+    // beforeRouteLeave (to, from, next) {
+    //     if (to.name == 'csv-to-xml-download') {
+    //         const dataConverterConfig = {
+    //             documentRoot: this.globalTag,
+    //             collectionRoot: this.collectionTag,
+    //             documentAttributes: this.attributes.reduce((prev, cur) => {
+    //                 return {
+    //                     ...prev,
+    //                     [cur.name]: cur.value
+    //                 }
+    //             }, {}),
+    //             documentDeclaration: this.declarations.reduce((prev, cur) => {
+    //                 return {
+    //                     ...prev,
+    //                     [cur.name]: cur.value
+    //                 }
+    //             }, {}),
+    //             // fields: this.mapFields
+    //         }
 
-            const formData = new FormData()
-            formData.append('map', JSON.stringify(dataConverterConfig))
-            formData.append('file', this.file)
+    //         const formData = new FormData()
+    //         formData.append('map', JSON.stringify(dataConverterConfig))
+    //         formData.append('file', this.file)
 
-            fetch (config.backendRoot+'/csv-to-xml', {
-                method: 'post',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(o => {
-                this[types.SET_CSV_TO_XML_GLOBAL_TAG] (this.globalTag)
-                this[types.SET_CSV_TO_XML_COLLECTION_TAG] (this.collectionTag)
-                this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes)
-                this[types.SET_CSV_TO_XML_DECLARATIONS] (this.declarations)
-                this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
-                this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
-                console.log(o.body.file)
+    //         fetch (config.backendRoot+'/csv-to-xml', {
+    //             method: 'post',
+    //             body: formData
+    //         })
+    //         .then(res => res.json())
+    //         .then(o => {
+    //             this[types.SET_CSV_TO_XML_GLOBAL_TAG] (this.globalTag)
+    //             this[types.SET_CSV_TO_XML_COLLECTION_TAG] (this.collectionTag)
+    //             this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes)
+    //             this[types.SET_CSV_TO_XML_DECLARATIONS] (this.declarations)
+    //             // this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
+    //             this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
+    //             console.log(o.body.file)
 
-                // return this.dataAreValid
-                return true
-            })
-            .then(isValid => {
-                if (isValid) {
-                    next()
-                } else {
-                    console.log('prob')
-                }
-            })
+    //             // return this.dataAreValid
+    //             return true
+    //         })
+    //         .then(isValid => {
+    //             if (isValid) {
+    //                 next()
+    //             } else {
+    //                 console.log('prob')
+    //             }
+    //         })
 
-        }
+    //     }
 
-        next()
-    }
+    //     next()
+    // }
 }
 </script>

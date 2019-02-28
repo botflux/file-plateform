@@ -48,5 +48,8 @@ export default {
             return (this.field.$model.columns.length != 0)
         }
     },
+    watch: {
+        
+    }
 }
 </script>
