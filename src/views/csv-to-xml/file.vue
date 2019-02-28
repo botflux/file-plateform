@@ -1,8 +1,8 @@
 <template>
-    <div class="container">
-        <div class="row" v-if="isValid">
+    <b-container>
+        <b-row v-if="isValid">
             <router-link :to="{ name: 'csv-to-xml-map' }" class="btn btn-primary">Suivant</router-link>
-        </div>
+        </b-row>
         <h2 class="mb-5">Déposer votre fichier</h2>
 
         <div class="custom-file mb-3">
@@ -19,7 +19,7 @@
         <div class="spinner-border" role="status" v-if="(requested && !responded)">
             <span class="sr-only">Loading...</span>
         </div>
-    </div>
+    </b-container>
 </template>
 
 <script>
