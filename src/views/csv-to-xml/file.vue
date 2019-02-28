@@ -25,7 +25,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import * as types from '@/stores/types'
-import config from '@/config'
+// import config from '@/config'
 import { required } from 'vuelidate/lib/validators'
 import MustBeCSV from '@/validations/must-be-csv'
 
@@ -56,29 +56,14 @@ export default {
             this.$v.file.name.$touch()
         },
         valid () {
-            this.requested = true
-            this.responded = false
-
             const formData = new FormData()
             formData.append('file', this.file)
 
-            fetch(config.backendRoot+'/csv-to-xml/get-headers', {
-                method: 'post',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(o => {
-                this[types.SET_CSV_TO_XML_HEADERS] (o.body.headers)
-                return (this[types.CSV_TO_XML_HEADERS_ARE_VALID] && this[types.CSV_TO_XML_FILE_IS_VALID])
-            })
-            /* eslint-disable */
-            .then(isValid => {
-                console.log(isValid)
-                this.isValid = isValid
-            })
-            .then(_ => {
-                this.responded = true
-                this.requested = false
+            this.$http.post('csv-to-xml/get-headers', formData)
+            .then(response => response.json(), response => console.log('hello', response))
+            .then(obj => {
+                console.log(obj)
+                this[types.SET_CSV_TO_XML_HEADERS]  (obj.body.headers)
             })
         },
         ...mapActions([

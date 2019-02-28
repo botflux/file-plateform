@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <np-progress-container></np-progress-container>
     <app-header></app-header>
     <router-view/>
   </div>
@@ -7,11 +8,12 @@
 
 <script>
 import AppHeader from '@/components/AppHeader'
+import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
   name: 'App',
   components: {
-    AppHeader
+    AppHeader, 'np-progress-container': NprogressContainer
   }
 }
 </script>
@@ -22,5 +24,9 @@ export default {
   body {
     min-height: 100vh;
     margin: 0;
+  }
+
+  #nprogress .bar {
+    background: #000000 !important;
   }
 </style>

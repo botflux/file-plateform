@@ -5,6 +5,8 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import VueSelect from 'vue-select'
+import http from './resource'
+import nprogress from './nprogress'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -18,7 +20,9 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 new Vue({
+  http,
   router,
   store,
+  nprogress,
   render: h => h(App)
 }).$mount('#app')
