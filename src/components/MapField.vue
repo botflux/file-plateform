@@ -2,37 +2,37 @@
     <div>
         <div class="form-group">   
             <label>Nom</label>
-            <input type="text" v-model="field.name" class="form-control" :class="{ 'is-invalid': $v.field.name.$invalid }">
-            <div class="invalid-feedback" v-if="$v.field.name.$invalid">
+            <input type="text" v-model="field.$model.name" class="form-control" :class="{ 'is-invalid': field.name.$invalid, 'is-valid': !field.name.$invalid }">
+            <div class="invalid-feedback" v-if="field.name.$invalid">
                 Vous devez spécifier un nom pour le champs !
             </div>
         </div>
         <div class="d-flex flex-wrap">
-            <v-select v-model="field.columns" :options="headers" multiple></v-select>
-<!--             
-            <div class="form-group mr-4 custom-control custom-checkbox" v-for="(header, i) in headers" :key="`header-${fieldId}-${i}`">
-                <input type="checkbox" v-model="field.columns" :id="header + '-' + fieldId" :value="header" class="custom-control-input">
-                <label :for="header + '-' + fieldId" class="custom-control-label">{{ header }}</label>
-            </div> -->
+            <v-select v-model="field.$model.columns" :options="headers" multiple></v-select>
         </div>
         <div class="form-group" v-if="!hasColumn">
             <label>Valeur statique</label>
-            <input type="text" v-model="field.value" class="form-control">
+            <input type="text" v-model="field.$model.value" class="form-control" :class="{ 'is-invalid': field.value.$invalid, 'is-valid': !field.name.$invalid }">
+            <div class="invalid-feedback" v-if="field.value.$invalid">
+                Vous devez spécifiez une valeur pour ce champs.
+            </div>
         </div>
         <div class="form-group" v-if="hasMultipleColumns">
             <label>Caractère de liaison</label>
-            <input type="text" v-model="field.linkingCharacter" class="form-control">
+            <input type="text" v-model="field.$model.linkingCharacter" class="form-control">
         </div>
     </div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
 
 const { mapState } = createNamespacedHelpers('csvToXml')
 
 export default {
+    mounted () {
+        console.log(this.field)
+    },
     props: {
         field: Object,
         fieldId: Number,
@@ -42,26 +42,11 @@ export default {
             headers: state => state.headers
         }),
         hasMultipleColumns () {
-            return (this.field.columns.length > 1)
+            return (this.field.$model.columns.length > 1)
         },
         hasColumn () {
-            return (this.field.columns.length != 0)
+            return (this.field.$model.columns.length != 0)
         }
     },
-    watch: {
-        // eslint-disable-next-line
-        field (newValue, oldValue) {
-            if (newValue.columns.length == 1) {
-                this.field.linkingCharacter = ''
-            }
-        }
-    },
-    validations: {
-        field: {
-            name: {
-                required
-            }
-        }
-    }
 }
 </script>

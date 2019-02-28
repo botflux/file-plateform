@@ -49,3 +49,38 @@ describe('Cards', () => {
     expect(wrapper.text()).toMatch(jumbotron)
   })
 })
+
+describe ('mapField', () => {
+  // it ('displays an errors when name is not specified', () => {
+  //   const field = {
+  //     $model: { name: '', columns: [], value: 'v', linkingCharacter: '' },
+  //     name: { $invalid: true },
+  //     value: { $invalid: false }
+  //   }
+  //   const fieldId = 1
+
+  //   const wrapper = shallowMount(MapField, {
+  //     propsData: {
+  //       field,
+  //       fieldId
+  //     }
+  //   })
+
+  //   expect(wrapper.find('.is-invalid')).toBe(true)
+  // })
+
+  // it ('displays a valid class when name is valid', () => {
+    // const field = {
+    //   $model: { name: '', columns: [], value: 'v', linkingCharacter: '' },
+    //   name: { $invalid: true },
+    //   value: { $invalid: false }
+    // }
+    // const fieldId = 1
+
+    // const wrapper = shallowMount(MapField, {
+    //   propsData: { field, fieldId }
+    // })
+
+    // expect(wrapper.find('.is-valid')).toBe(true)
+  // })
+})

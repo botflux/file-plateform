@@ -16,8 +16,8 @@
                 <div class="d-flex flex-column">
                     <h3 class="mb-3">Définition des champs du XML</h3>
                     <button class="btn btn-success mr-auto mb-3" @click="addMapField()">Ajouter un champs</button>
-                    <div class="d-flex align-items-start py-3 border-bottom border-top" v-for="(mapField, i) in mapFields" :key="`map-field-${i}`">
-                        <map-field :field="mapField" :field-id="i" />
+                    <div class="d-flex align-items-start py-3 border-bottom border-top" v-for="(mapField, i) in $v.mapFields.$each.$iter" :key="`map-field-${i}`">
+                        <map-field :field="mapField" :field-id="Number.parseInt(i)" />
                         <button class="btn btn-danger ml-3" @click="deleteMapField(i)">Supprimer</button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ import MapField from '@/components/MapField'
 import XMLAttribute from '@/components/XMLAttribute'
 import XMLDeclaration from '@/components/XMLDeclaration'
 import config from '@/config.js'
-import { required } from 'vuelidate/lib/validators'
+import { required, requiredIf } from 'vuelidate/lib/validators'
 
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
@@ -107,6 +107,11 @@ export default {
             $each: {
                 name: {
                     required
+                },
+                value: {
+                    required: requiredIf (function (model) {
+                        return model.columns.length == 0
+                    })
                 }
             }
         }
@@ -182,8 +187,7 @@ export default {
                 name: '',
                 columns: [],
                 linkingCharacter: '',
-                value: '',
-                errors: {}
+                value: ''
             })
         },
         addDeclaration () {
@@ -218,13 +222,13 @@ export default {
         ])
     },
     /* eslinl-disable */
-    beforeRouteEnter (to, from, next) {
-        next(vm => {
-            if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
-                next({ name: 'csv-to-xml' })
-            }
-        })
-    },
+    // beforeRouteEnter (to, from, next) {
+    //     next(vm => {
+    //         if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
+    //             next({ name: 'csv-to-xml' })
+    //         }
+    //     })
+    // },
     beforeRouteLeave (to, from, next) {
         if (to.name == 'csv-to-xml-download') {
             const dataConverterConfig = {
