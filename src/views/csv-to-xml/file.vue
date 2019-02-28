@@ -33,7 +33,12 @@ export default {
             return (this.file.name !== undefined)
         },
         viewIsValid () {
-            return (this[types.CSV_TO_XML_HEADERS_ARE_VALID] && this[types.CSV_TO_XML_FILE_IS_VALID])
+            return (
+                // store is valid
+                this[types.CSV_TO_XML_HEADERS_ARE_VALID] && this[types.CSV_TO_XML_FILE_IS_VALID]
+                // file has not been removed
+                && !this.$v.file.name.$invalid
+            )
         },
         ...mapGetters([
             types.CSV_TO_XML_HEADERS_ARE_VALID,
@@ -47,6 +52,7 @@ export default {
         updateFile (files) {
             let file = files[0] || {}
             this[types.SET_CSV_TO_XML_FILE] (file)
+            this[types.SET_CSV_TO_XML_HEADERS] ([])
             this.$v.file.name.$touch()
         },
         valid () {
