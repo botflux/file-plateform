@@ -1,6 +1,5 @@
 const mustBeCSV = value => {
-    const exploded = (value || '').split('.')[1] || ''
-    return (exploded.toLowerCase() !== 'csv')
+    return (value.match(/(.(c|C)(s|S)(v)|V)$/g) !== null)
 }
 
 export default mustBeCSV
