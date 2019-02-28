@@ -35,14 +35,16 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-column mt-5">
+                <xml-declaration-container></xml-declaration-container>
+
+                <!-- <div class="d-flex flex-column mt-5">
                     <h3 class="mb-3">Définition des déclarations du fichier XML</h3>
                     <button class="btn btn-success mr-auto mb-3" @click="addDeclaration()">Ajouter une déclaration</button>
                     <div class="py-3 border-bottom border-top" v-for="(declaration, i) in declarations" :key="`declaration-${i}`">
                         <xml-declaration :declaration="declaration" :declarationId="i" />
                         <button class="btn btn-danger" @click="removeDeclaration(i)">Supprimer</button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-6">
                 <xml-preview class="sticky-top my-5"></xml-preview>
@@ -57,28 +59,28 @@ import * as types from '@/stores/types'
 import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
 import XMLAttribute from '@/components/XMLAttribute'
-import XMLDeclaration from '@/components/XMLDeclaration'
 import XMLPreview from '@/components/XMLPreview'
+import XMLDeclarationContainer from '@/components/XMLDeclarationContainer'
 // import config from '@/config.js'
 import MapFieldContainer from '@/components/MapFieldContainer'
 import XMLTags from '@/components/XMLTags'
 
+// eslint-disable-next-line
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
     data () {
         return {
             attributes:     [],
-            declarations:   [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
         }
     },
     components: {
         'csv-header': CSVHeader, 
         'csv-headers-container': CSVHeadersContainer,
         'xml-attribute': XMLAttribute,
-        'xml-declaration': XMLDeclaration,
         'xml-preview': XMLPreview,
         'xml-tags': XMLTags,
+        'xml-declaration-container': XMLDeclarationContainer,
         MapFieldContainer
     },
     computed: {
@@ -117,15 +119,6 @@ export default {
         }
     },
     methods: {
-        addDeclaration () {
-            this.declarations.push({
-                name: '',
-                value: ''
-            })
-        },
-        removeDeclaration (index) {
-            this.declarations = this.declarations.filter ((d, i) => i != index)
-        },
         addAttribute () {
             this.attributes.push({
                 name: '',

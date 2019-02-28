@@ -5,7 +5,7 @@ const state = {
     file: {},
     headers: [],
     attributes: [],
-    declarations: [],
+    declarations: [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
     fields: [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '' } ],
     globalTag: 'Elements',
     collectionTag: 'Element',
@@ -21,14 +21,14 @@ const mutations = {
     [types.SET_CSV_TO_XML_FIELDS]: (state, fields) => state.fields = fields,
     [types.SET_CSV_TO_XML_DOWNLOAD]: (state, download) => state.download = download,
     [types.CSV_TO_XML_CLEAN]:       state => {
-        state.download = ''
-        state.collectionTag = ''
-        state.globalTag = ''
+        state.file = {}
         state.headers = []
         state.attributes = []
-        state.declarations = []
-        state.fields = []
-        state.file = {}
+        state.declarations = [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ]
+        state.fields = [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '' } ]
+        state.globalTag = 'Elements'
+        state.collectionTag = 'Element'
+        state.download = ''
     },
     updateField
 }

@@ -4,7 +4,7 @@
         <button class="btn btn-success mr-auto mb-3" @click="addMapField()">Ajouter un champs</button>
         <div class="py-3 border-bottom border-top" v-for="(mapField, i) in $v.mapFields.$each.$iter" :key="`map-field-${i}`">
             <map-field :field="mapField" :field-id="Number.parseInt(i)" />
-            <button class="btn btn-danger" @click="deleteMapField(i)">Supprimer</button>
+            <button class="btn btn-danger" @click="deleteMapField(mapField.$model)">Supprimer</button>
         </div>
     </div>
 </template>
@@ -20,16 +20,20 @@ const { mapState, mapActions } = createNamespacedHelpers('csvToXml')
 export default {
     methods: {
         addMapField () {
-            this.mapFields.push({
-                name: '',
-                columns: [],
-                linkingCharacter: '',
-                value: ''
-            })
+            this[types.SET_CSV_TO_XML_FIELDS] ([
+                ...this.mapFields, {
+                    name: '',
+                    columns: [],
+                    linkingCharacter: '',
+                    value: ''
+                }
+            ])
         },
-        deleteMapField (index) {
+        deleteMapField (mapField) {
+            // console.log(index)
+
             // eslint-disable-next-line
-            this.mapFields = this.mapFields.filter ((mf, i) => i != index)
+            this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields.filter ((mf) => mf != mapField))
         },
         ...mapActions([
             types.SET_CSV_TO_XML_FIELDS
