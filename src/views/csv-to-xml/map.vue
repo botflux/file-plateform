@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
-        <div class="row">
+    <b-container>
+        <b-row>
             <router-link class="btn btn-primary" :to="{ name: 'csv-to-xml-download' }">Suivant</router-link>
-        </div>
-        <div class="d-flex flex-column mb-5">
+        </b-row>
+        <div class="mb-5">
             <h2 class="mb-5">Définition de la configuration</h2>
 
             <p>Voici les en-têtes qui ont été détecté dans le fichier :</p>
@@ -11,18 +11,18 @@
                 <csv-header v-for="(header, i) in headers" :key="i" :header="header" />
             </csv-headers-container>
         </div>
-        <div class="row mt-5">
-            <div class="col-md-6">
+        <b-row class="mt-5">
+            <b-col md="6">
                 <map-field-container></map-field-container>
                 <xml-tags></xml-tags>
                 <xml-attribute-container></xml-attribute-container>
                 <xml-declaration-container></xml-declaration-container>
-            </div>
-            <div class="col-md-6">
+            </b-col>
+            <b-col md="6">
                 <xml-preview class="sticky-top my-5"></xml-preview>
-            </div>
-        </div>
-    </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>

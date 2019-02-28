@@ -7,7 +7,8 @@
                 Vous devez spécifier un nom pour le champs !
             </div>
         </div>
-        <div class="d-flex flex-wrap">
+        <div class="form-group">
+            <label>Colonnes</label>
             <v-select v-model="field.$model.columns" :options="headers" multiple></v-select>
         </div>
         <div class="form-group" v-if="!hasColumn">
