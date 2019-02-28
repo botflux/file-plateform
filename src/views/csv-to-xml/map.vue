@@ -26,14 +26,16 @@
 
                 <xml-tags></xml-tags>
 
-                <div class="d-flex flex-column mt-5">
+                <xml-attribute-container></xml-attribute-container>
+
+                <!-- <div class="d-flex flex-column mt-5">
                     <h3 class="mb-3">Définition des attributs de l'élément global</h3>
                     <button class="btn btn-success mr-auto mb-4" @click="addAttribute()">Ajouter un attribut</button>
                     <div class="py-3 border-bottom border-top" v-for="(attribute, i) in attributes" :key="`attribute-${i}`">
                         <xml-attribute :attribute="attribute" :attributeId="i" />
                         <button class="btn btn-danger" @click="removeAttribute(i)">Supprimer</button>
                     </div>
-                </div>
+                </div> -->
 
                 <xml-declaration-container></xml-declaration-container>
 
@@ -58,29 +60,24 @@ import { createNamespacedHelpers } from 'vuex'
 import * as types from '@/stores/types'
 import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
-import XMLAttribute from '@/components/XMLAttribute'
 import XMLPreview from '@/components/XMLPreview'
 import XMLDeclarationContainer from '@/components/XMLDeclarationContainer'
 // import config from '@/config.js'
 import MapFieldContainer from '@/components/MapFieldContainer'
+import XMLAttributeContainer from '@/components/XMLAttributeContainer.vue'
 import XMLTags from '@/components/XMLTags'
 
 // eslint-disable-next-line
 const { mapGetters, mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
-    data () {
-        return {
-            attributes:     [],
-        }
-    },
     components: {
         'csv-header': CSVHeader, 
         'csv-headers-container': CSVHeadersContainer,
-        'xml-attribute': XMLAttribute,
         'xml-preview': XMLPreview,
         'xml-tags': XMLTags,
         'xml-declaration-container': XMLDeclarationContainer,
+        'xml-attribute-container': XMLAttributeContainer,
         MapFieldContainer
     },
     computed: {
