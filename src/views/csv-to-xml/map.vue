@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <b-row>
+        <b-row v-if="viewIsValid">
             <b-button variant="primary" @click="next()">Suivant</b-button>
         </b-row>
         <div class="mb-5">
@@ -58,8 +58,20 @@ export default {
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
-            types.CSV_TO_XML_HEADERS_ARE_VALID
-        ])
+            types.CSV_TO_XML_HEADERS_ARE_VALID,
+            types.CSV_TO_XML_TAGS_VIEW_IS_VALID,
+            types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID,
+            types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID,
+            types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID
+        ]),
+        viewIsValid () {
+            return (
+                this[types.CSV_TO_XML_TAGS_VIEW_IS_VALID] &&
+                this[types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID] &&
+                this[types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID] &&
+                this[types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID]
+            )
+        }
     },
     // eslint-disable-next-line
     beforeRouteEnter (to, from, next) {

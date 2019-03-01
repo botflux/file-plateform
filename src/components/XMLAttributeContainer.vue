@@ -64,6 +64,7 @@ export default {
         },
         validationState: {
             handler (v) {
+                console.log('handler', v)
                 this[types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION] (v)
             },
             deep: true

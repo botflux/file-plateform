@@ -52,10 +52,10 @@ const actions = {
     [types.SET_CSV_TO_XML_FIELDS]: ({ commit }, fields) => commit(types.SET_CSV_TO_XML_FIELDS, fields),
     [types.SET_CSV_TO_XML_DOWNLOAD]: ({ commit }, download) => commit(types.SET_CSV_TO_XML_DOWNLOAD, download),
     [types.CSV_TO_XML_CLEAN]: ({ commit }) => commit(types.CSV_TO_XML_CLEAN),
-    [types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION]: ({ commit }) => commit(types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION),
-    [types.SET_CSV_TO_XML_TAGS_VALIDATION]: ({ commit }) => commit(types.SET_CSV_TO_XML_TAGS_VALIDATION),
-    [types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION]: ({ commit }) => commit(types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION),
-    [types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION]: ({ commit }) => commit(types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION)
+    [types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION, validations),
+    [types.SET_CSV_TO_XML_TAGS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_TAGS_VALIDATION, validations),
+    [types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION, validations),
+    [types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION, validations)
 }
 const getters = {
     [types.CSV_TO_XML_FILE_IS_VALID]:       state => (state.file !== undefined && state.file !== null && state.file.name !== null && state.file.name !== undefined),
@@ -66,6 +66,10 @@ const getters = {
     [types.CSV_TO_XML_COLLECTION_TAG_IS_VALID]: state => (state.collectionTag !== ''),
     [types.CSV_TO_XML_FIELDS_ARE_VALID]:    state => (Array.isArray(state.fields) && state.fields.length > 0),
     [types.CSV_TO_XML_DOWNLOAD_IS_VALID]:   state => (state.download !== ''),
+    [types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID]: state => (!state.attributesValidations.$invalid),
+    [types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID]: state => (!state.declarationsValidations.$invalid),
+    [types.CSV_TO_XML_TAGS_VIEW_IS_VALID]: state => (!state.tagsValidations.$invalid),
+    [types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID]: state => (!state.fieldsValidations.$invalid),
     getField
 }
 
