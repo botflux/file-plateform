@@ -18,6 +18,9 @@ import { required } from 'vuelidate/lib/validators'
 const { mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
+    mounted () {
+        this.$v.attributes.$touch()
+    },
     components: {
         'xml-attribute': XMLAttribute,
     },

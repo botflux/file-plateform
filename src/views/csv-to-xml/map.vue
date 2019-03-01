@@ -13,10 +13,10 @@
         </div>
         <b-row class="mt-5">
             <b-col md="6">
-                <map-field-container v-on:validation-state-changed="handleValidation"></map-field-container>
-                <xml-tags v-on:component-error-change="handle(errorState)"></xml-tags>
-                <xml-attribute-container v-on:component-error-change="handle(errorState)"></xml-attribute-container>
-                <xml-declaration-container v-on:component-error-change="handle(errorState)"></xml-declaration-container>
+                <map-field-container></map-field-container>
+                <xml-tags></xml-tags>
+                <xml-attribute-container></xml-attribute-container>
+                <xml-declaration-container></xml-declaration-container>
             </b-col>
             <b-col md="6">
                 <xml-preview class="sticky-top my-5"></xml-preview>
@@ -91,13 +91,13 @@ export default {
             types.SET_CSV_TO_XML_DOWNLOAD
         ]),
         next () {
-            console.log(
-                this.declarations,
-                this.attributes,
-                this.fields,
-                this.globalTag,
-                this.collectionTag
-            )
+            // console.log(
+            //     this.declarations,
+            //     this.attributes,
+            //     this.fields,
+            //     this.globalTag,
+            //     this.collectionTag
+            // )
 
             const map = {
                 documentRoot: this.globalTag,
@@ -126,14 +126,11 @@ export default {
                     }
 
                     this[types.SET_CSV_TO_XML_DOWNLOAD] (obj.body.file)
-                    console.log(this.$router)
+                    // console.log(this.$router)
                     this.$router.push({ name: 'csv-to-xml-download' })
                 })
 
         },
-        handleValidation (state) {
-            console.log('handleValidation', state)
-        }
     }
 }
 </script>

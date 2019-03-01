@@ -39,6 +39,10 @@ const mutations = {
         state.globalTag = 'Elements'
         state.collectionTag = 'Element'
         state.download = ''
+        state.declarationsValidations = {},
+        state.attributesValidations = {},
+        state.tagsValidations = {},
+        state.fieldsValidations = {}
     },
     updateField
 }
@@ -66,10 +70,10 @@ const getters = {
     [types.CSV_TO_XML_COLLECTION_TAG_IS_VALID]: state => (state.collectionTag !== ''),
     [types.CSV_TO_XML_FIELDS_ARE_VALID]:    state => (Array.isArray(state.fields) && state.fields.length > 0),
     [types.CSV_TO_XML_DOWNLOAD_IS_VALID]:   state => (state.download !== ''),
-    [types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID]: state => (!state.attributesValidations.$invalid),
-    [types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID]: state => (!state.declarationsValidations.$invalid),
-    [types.CSV_TO_XML_TAGS_VIEW_IS_VALID]: state => (!state.tagsValidations.$invalid),
-    [types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID]: state => (!state.fieldsValidations.$invalid),
+    [types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID]: state => (Object.keys(state.attributesValidations).length > 0 && !state.attributesValidations.$invalid),
+    [types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID]: state => (Object.keys(state.declarationsValidations).length > 0 && !state.declarationsValidations.$invalid),
+    [types.CSV_TO_XML_TAGS_VIEW_IS_VALID]: state => (Object.keys(state.tagsValidations).length > 0 && !state.tagsValidations.$invalid),
+    [types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID]: state => (Object.keys(state.fieldsValidations).length > 0 && !state.fieldsValidations.$invalid),
     getField
 }
 

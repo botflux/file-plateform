@@ -18,6 +18,9 @@ import MapField from './MapField'
 const { mapState, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
+    mounted () {
+        this.$v.mapFields.$touch()
+    },
     methods: {
         addMapField () {
             this[types.SET_CSV_TO_XML_FIELDS] ([
@@ -74,6 +77,7 @@ export default {
         validationState: {
             handler (v) {
                 this[types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION] (v)
+                console.log('state updated')
             },
             deep: true
         }

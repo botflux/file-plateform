@@ -33,6 +33,10 @@ const { mapFields } = createHelpers({
 })
 
 export default {
+    mounted () {
+        this.$v.globalTag.$touch()
+        this.$v.collectionTag.$touch()
+    },
     validations: {
         globalTag: {
             required

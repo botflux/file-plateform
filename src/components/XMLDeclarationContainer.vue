@@ -18,8 +18,7 @@ import { required } from 'vuelidate/lib/validators'
 const { mapState, mapActions } = createNamespacedHelpers('csvToXml')
 export default {
     mounted () {
-        console.log('hello')
-        console.log(this.declarations)
+        this.$v.declarations.$touch()
     },
     components: {
         'xml-declaration': XMLDeclaration

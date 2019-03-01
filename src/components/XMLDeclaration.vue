@@ -17,9 +17,9 @@
 
 <script>
 export default {
-    mounted () {
-        console.log('declaratoion', this.declaration)
-    },
+    // mounted () {
+    //     console.log('declaratoion', this.declaration)
+    // },
     props: {
         declaration: Object,
         declarationId: Number
