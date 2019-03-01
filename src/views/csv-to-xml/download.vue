@@ -23,21 +23,27 @@ export default {
             download: state => state.download
         }),
         ...mapGetters([
-            types.CSV_TO_XML_GLOBAL_TAG_IS_VALID,
-            types.CSV_TO_XML_COLLECTION_TAG_IS_VALID,
-            types.CSV_TO_XML_FIELDS_ARE_VALID,
-            types.CSV_TO_XML_DOWNLOAD_IS_VALID,
-            types.CSV_TO_XML_ATTRIBUTES_ARE_VALID,
-            types.CSV_TO_XML_DECLARATIONS_ARE_VALID
+            types.CSV_TO_XML_TAGS_VIEW_IS_VALID,
+            types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID,
+            types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID,
+            types.CSV_TO_XML_DECLARATIONS_VIEW_IS_VALID
         ]),
         downloadUrl () {
-            console.log(this.download)
             return config.backendRoot + '/' + this.download
         }
     },
     // eslint-disable-next-line
     beforeRouteEnter (to, from, next) {
-        next()
+        next(vm => {
+            if (!(
+                vm[types.CSV_TO_XML_TAGS_VIEW_IS_VALID] && 
+                vm[types.CSV_TO_XML_ATTRIBUTES_VIEW_IS_VALID] && 
+                vm[types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID] && 
+                vm[types.CSV_TO_XML_MAP_FIELDS_VIEW_IS_VALID])
+            ) {
+                next({ name: 'csv-to-xml-map' })
+            }
+        })
         // next(vm => {
         //     if (!(vm[types.CSV_TO_XML_GLOBAL_TAG_IS_VALID] && vm[types.CSV_TO_XML_DOWNLOAD_IS_VALID]
         //     && vm[types.CSV_TO_XML_COLLECTION_TAG_IS_VALID] && vm[types.CSV_TO_XML_FIELDS_ARE_VALID]

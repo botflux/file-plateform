@@ -37,8 +37,9 @@ import XMLDeclarationContainer from '@/components/XMLDeclarationContainer'
 import MapFieldContainer from '@/components/MapFieldContainer'
 import XMLAttributeContainer from '@/components/XMLAttributeContainer.vue'
 import XMLTags from '@/components/XMLTags'
+// import { nextTick } from 'vue';
 
-const { mapState, mapGetters } = createNamespacedHelpers('csvToXml')
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers('csvToXml')
 
 export default {
     components: {
@@ -54,7 +55,11 @@ export default {
         ...mapState({
             headers: state => state.headers,
             file: state => state.file,
-            fields: state => state.fields
+            fields: state => state.fields,
+            attributes: state => state.attributes,
+            declarations: state => state.declarations,
+            globalTag: state => state.globalTag,
+            collectionTag: state => state.collectionTag
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
@@ -82,7 +87,48 @@ export default {
         })
     },
     methods: {
+        ...mapActions([
+            types.SET_CSV_TO_XML_DOWNLOAD
+        ]),
         next () {
+            console.log(
+                this.declarations,
+                this.attributes,
+                this.fields,
+                this.globalTag,
+                this.collectionTag
+            )
+
+            const map = {
+                documentRoot: this.globalTag,
+                collectionRoot: this.collectionTag,
+                fields: this.fields,
+                documentAttributes: this.attributes.reduce((prev, cur) => ({
+                    ...prev,
+                    [cur.name]: cur.value
+                }), {}),
+                documentDeclarations: this.declarations.reduce((prev, cur) => ({
+                    ...prev,
+                    [cur.name]: cur.value
+                }), {})
+            }
+
+            const formData = new FormData()
+            formData.append('map', JSON.stringify(map))
+            formData.append('file', this.file)
+
+            this.$http.post('csv-to-xml', formData)
+                .then(response => response.json(), response => console.log('error', response))
+                .then(obj => {
+                    if (obj.body === undefined || obj.body.file === undefined) {
+                        console.log('something went wrong')
+                        return
+                    }
+
+                    this[types.SET_CSV_TO_XML_DOWNLOAD] (obj.body.file)
+                    console.log(this.$router)
+                    this.$router.push({ name: 'csv-to-xml-download' })
+                })
 
         },
         handleValidation (state) {
