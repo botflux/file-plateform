@@ -28,7 +28,8 @@ export default {
                     name: '',
                     columns: [],
                     linkingCharacter: '',
-                    value: ''
+                    value: '',
+                    afterFilters: []
                 }
             ])
         },

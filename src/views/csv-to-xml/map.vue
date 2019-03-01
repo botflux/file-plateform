@@ -102,15 +102,17 @@ export default {
                 documentRoot: this.globalTag,
                 collectionRoot: this.collectionTag,
                 fields: this.fields,
-                documentAttributes: this.attributes.reduce((prev, cur) => ({
+                attributes: this.attributes.reduce((prev, cur) => ({
                     ...prev,
                     [cur.name]: cur.value
                 }), {}),
-                documentDeclarations: this.declarations.reduce((prev, cur) => ({
+                declarations: this.declarations.reduce((prev, cur) => ({
                     ...prev,
                     [cur.name]: cur.value
                 }), {})
             }
+
+            console.log('map', map)
 
             const formData = new FormData()
             formData.append('map', JSON.stringify(map))
