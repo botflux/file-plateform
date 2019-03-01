@@ -64,12 +64,14 @@ export default {
                 .then(obj => {
                     console.log(obj)
                     this[types.SET_CSV_TO_XML_HEADERS] (obj.body.headers)
+                    this[types.SET_CSV_TO_XML_FILTERS] (obj.body.filters)
                 })
         },
         ...mapActions([
             types.SET_CSV_TO_XML_FILE,
             types.SET_CSV_TO_XML_HEADERS,
-            types.CSV_TO_XML_CLEAN
+            types.CSV_TO_XML_CLEAN,
+            types.SET_CSV_TO_XML_FILTERS
         ]),
     },
     validations: {

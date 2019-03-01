@@ -4,9 +4,10 @@ import { getField, updateField } from 'vuex-map-fields'
 const state = {
     file: {},
     headers: [],
+    filters: [],
     attributes: [],
     declarations: [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ],
-    fields: [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '' } ],
+    fields: [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '', afterFilters: [] } ],
     globalTag: 'Elements',
     collectionTag: 'Element',
     download: '',
@@ -30,12 +31,14 @@ const mutations = {
     [types.SET_CSV_TO_XML_COLLECTION_TAG]: (state, collectionTag) => state.collectionTag = collectionTag,
     [types.SET_CSV_TO_XML_FIELDS]: (state, fields) => state.fields = fields,
     [types.SET_CSV_TO_XML_DOWNLOAD]: (state, download) => state.download = download,
+    [types.SET_CSV_TO_XML_FILTERS]: (state, filters) => state.filters = filters,
     [types.CSV_TO_XML_CLEAN]: state => {
         state.file = {}
         state.headers = []
+        state.filters = []
         state.attributes = []
         state.declarations = [ { name: 'version', value: '1.0' }, { name: 'encoding', value: 'iso-8859-1' } ]
-        state.fields = [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '' } ]
+        state.fields = [ { name: 'Champs', value: 'Valeur statique', columns: [], linkCharacter: '', afterFilters: [] } ]
         state.globalTag = 'Elements'
         state.collectionTag = 'Element'
         state.download = ''
@@ -59,7 +62,8 @@ const actions = {
     [types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION, validations),
     [types.SET_CSV_TO_XML_TAGS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_TAGS_VALIDATION, validations),
     [types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION, validations),
-    [types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION, validations)
+    [types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION]: ({ commit }, validations) => commit(types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION, validations),
+    [types.SET_CSV_TO_XML_FILTERS]: ({ commit }, filters) => commit(types.SET_CSV_TO_XML_FILTERS, filters)
 }
 const getters = {
     [types.CSV_TO_XML_FILE_IS_VALID]:       state => (state.file !== undefined && state.file !== null && state.file.name !== null && state.file.name !== undefined),

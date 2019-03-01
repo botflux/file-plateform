@@ -37,7 +37,6 @@ import XMLDeclarationContainer from '@/components/XMLDeclarationContainer'
 import MapFieldContainer from '@/components/MapFieldContainer'
 import XMLAttributeContainer from '@/components/XMLAttributeContainer.vue'
 import XMLTags from '@/components/XMLTags'
-// import { nextTick } from 'vue';
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('csvToXml')
 
@@ -59,7 +58,7 @@ export default {
             attributes: state => state.attributes,
             declarations: state => state.declarations,
             globalTag: state => state.globalTag,
-            collectionTag: state => state.collectionTag
+            collectionTag: state => state.collectionTag,
         }),
         ...mapGetters([
             types.CSV_TO_XML_FILE_IS_VALID,
@@ -98,7 +97,7 @@ export default {
             //     this.globalTag,
             //     this.collectionTag
             // )
-
+            console.log('fields', this.fields)
             const map = {
                 documentRoot: this.globalTag,
                 collectionRoot: this.collectionTag,
