@@ -22,7 +22,10 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import { createHelpers } from 'vuex-map-fields'
-// import * as types from '@/stores/types.js'
+import { createNamespacedHelpers } from 'vuex'
+import * as types from '@/stores/types.js'
+
+const { mapActions } = createNamespacedHelpers('csvToXml')
 
 const { mapFields } = createHelpers({
     getterType: 'csvToXml/getField',
@@ -42,8 +45,24 @@ export default {
         ...mapFields([
             'globalTag',
             'collectionTag'
+        ]),
+        validationState () {
+            return this.$v
+        }
+    },
+    methods: {
+        ...mapActions([
+            types.SET_CSV_TO_XML_TAGS_VALIDATION
         ])
     },
+    watch: {
+        validationState: {
+            handler (v) {
+                this[types.SET_CSV_TO_XML_TAGS_VALIDATION] (v)
+            },
+            deep: true
+        }
+    }
 }
 </script>
 

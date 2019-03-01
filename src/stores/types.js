@@ -13,6 +13,10 @@ export const SET_CSV_TO_XML_GLOBAL_TAG = 'setGlobalTag'
 export const SET_CSV_TO_XML_COLLECTION_TAG = 'setCollectionTag'
 export const SET_CSV_TO_XML_FIELDS = 'setFields'
 export const SET_CSV_TO_XML_DOWNLOAD = 'setDownload'
+export const SET_CSV_TO_XML_MAP_FIELDS_VALIDATION = 'setMapFieldsValidation'
+export const SET_CSV_TO_XML_TAGS_VALIDATION = 'setTagsValidation'
+export const SET_CSV_TO_XML_DECLARATIONS_VALIDATION = 'setDeclarationsValidation'
+export const SET_CSV_TO_XML_ATTRIBUTES_VALIDATION = 'setAttributesValidation'
 
 /**
  * =====================================================

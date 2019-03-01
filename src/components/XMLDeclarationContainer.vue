@@ -27,7 +27,10 @@ export default {
     computed: {
         ...mapState({
             declarations: state => state.declarations
-        })
+        }),
+        validationState () {
+            return (this.$v)
+        }
     },
     methods: {
         addDeclaration () {
@@ -46,7 +49,8 @@ export default {
             // this.declarations = this.declarations.filter ((d, i) => i != index)
         },
         ...mapActions([
-            types.SET_CSV_TO_XML_DECLARATIONS
+            types.SET_CSV_TO_XML_DECLARATIONS,
+            types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION
         ])
     },
 
@@ -64,6 +68,12 @@ export default {
         declarations: {
             handler (v) {
                 this[types.SET_CSV_TO_XML_DECLARATIONS] (v)
+            },
+            deep: true
+        },
+        validationState: {
+            handler (v) {
+                this[types.SET_CSV_TO_XML_DECLARATIONS_VALIDATION] (v)
             },
             deep: true
         }

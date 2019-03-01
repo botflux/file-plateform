@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <b-row>
-            <router-link class="btn btn-primary" :to="{ name: 'csv-to-xml-download' }">Suivant</router-link>
+            <b-button variant="primary" @click="next()">Suivant</b-button>
         </b-row>
         <div class="mb-5">
             <h2 class="mb-5">Définition de la configuration</h2>
@@ -13,7 +13,7 @@
         </div>
         <b-row class="mt-5">
             <b-col md="6">
-                <map-field-container v-on:component-error-change="handle(errorState)"></map-field-container>
+                <map-field-container v-on:validation-state-changed="handleValidation"></map-field-container>
                 <xml-tags v-on:component-error-change="handle(errorState)"></xml-tags>
                 <xml-attribute-container v-on:component-error-change="handle(errorState)"></xml-attribute-container>
                 <xml-declaration-container v-on:component-error-change="handle(errorState)"></xml-declaration-container>
@@ -68,67 +68,14 @@ export default {
                 next({ name: 'csv-to-xml' })
             }
         })
+    },
+    methods: {
+        next () {
+
+        },
+        handleValidation (state) {
+            console.log('handleValidation', state)
+        }
     }
-    /* eslinl-disable */
-    // beforeRouteEnter (to, from, next) {
-    //     next(vm => {
-    //         if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
-    //             next({ name: 'csv-to-xml' })
-    //         }
-    //     })
-    // },
-    // beforeRouteLeave (to, from, next) {
-    //     if (to.name == 'csv-to-xml-download') {
-    //         const dataConverterConfig = {
-    //             documentRoot: this.globalTag,
-    //             collectionRoot: this.collectionTag,
-    //             documentAttributes: this.attributes.reduce((prev, cur) => {
-    //                 return {
-    //                     ...prev,
-    //                     [cur.name]: cur.value
-    //                 }
-    //             }, {}),
-    //             documentDeclaration: this.declarations.reduce((prev, cur) => {
-    //                 return {
-    //                     ...prev,
-    //                     [cur.name]: cur.value
-    //                 }
-    //             }, {}),
-    //             // fields: this.mapFields
-    //         }
-
-    //         const formData = new FormData()
-    //         formData.append('map', JSON.stringify(dataConverterConfig))
-    //         formData.append('file', this.file)
-
-    //         fetch (config.backendRoot+'/csv-to-xml', {
-    //             method: 'post',
-    //             body: formData
-    //         })
-    //         .then(res => res.json())
-    //         .then(o => {
-    //             this[types.SET_CSV_TO_XML_GLOBAL_TAG] (this.globalTag)
-    //             this[types.SET_CSV_TO_XML_COLLECTION_TAG] (this.collectionTag)
-    //             this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes)
-    //             this[types.SET_CSV_TO_XML_DECLARATIONS] (this.declarations)
-    //             // this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields)
-    //             this[types.SET_CSV_TO_XML_DOWNLOAD] (o.body.file)
-    //             console.log(o.body.file)
-
-    //             // return this.dataAreValid
-    //             return true
-    //         })
-    //         .then(isValid => {
-    //             if (isValid) {
-    //                 next()
-    //             } else {
-    //                 console.log('prob')
-    //             }
-    //         })
-
-    //     }
-
-    //     next()
-    // }
 }
 </script>

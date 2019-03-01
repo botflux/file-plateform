@@ -30,13 +30,11 @@ export default {
             ])
         },
         deleteMapField (mapField) {
-            // console.log(index)
-
-            // eslint-disable-next-line
             this[types.SET_CSV_TO_XML_FIELDS] (this.mapFields.filter ((mf) => mf != mapField))
         },
         ...mapActions([
-            types.SET_CSV_TO_XML_FIELDS
+            types.SET_CSV_TO_XML_FIELDS,
+            types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION
         ])
     },
     computed: {
@@ -44,6 +42,9 @@ export default {
             headers: state => state.headers,
             mapFields: state => state.fields
         }),
+        validationState () {
+            return (this.$v)
+        }
     },
     validations: {
         mapFields: {
@@ -64,13 +65,18 @@ export default {
         MapField
     },
     watch: {
-        // eslint-disable-next-line
         mapFields: {
             handler (v) {
                 this[types.SET_CSV_TO_XML_FIELDS] (v)
             },
             deep: true
         },
+        validationState: {
+            handler (v) {
+                this[types.SET_CSV_TO_XML_MAP_FIELDS_VALIDATION] (v)
+            },
+            deep: true
+        }
     }
 }
 </script>

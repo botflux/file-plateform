@@ -14,7 +14,9 @@ import XMLAttribute from '@/components/XMLAttribute'
 import { createNamespacedHelpers } from 'vuex'
 import * as types from '@/stores/types.js'
 import { required } from 'vuelidate/lib/validators'
+
 const { mapState, mapActions } = createNamespacedHelpers('csvToXml')
+
 export default {
     components: {
         'xml-attribute': XMLAttribute,
@@ -22,7 +24,10 @@ export default {
     computed: {
         ...mapState({
             attributes: state => state.attributes
-        })
+        }),
+        validationState () {
+            return (this.$v)
+        }
     },
     methods: {
         addAttribute () {
@@ -34,11 +39,11 @@ export default {
             ])
         },
         removeAttribute (attribute) {
-            this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes.filter(a => a == attribute))
-            // this.attributes = this.attributes.filter ((a, i) => i != index)
+            this[types.SET_CSV_TO_XML_ATTRIBUTES] (this.attributes.filter(a => a != attribute))
         },
         ...mapActions([
             types.SET_CSV_TO_XML_ATTRIBUTES,
+            types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION
         ])
     },
     validations: {
@@ -54,6 +59,12 @@ export default {
         attributes: {
             handler (v) {
                 this[types.SET_CSV_TO_XML_ATTRIBUTES] (v)
+            },
+            deep: true
+        },
+        validationState: {
+            handler (v) {
+                this[types.SET_CSV_TO_XML_ATTRIBUTES_VALIDATION] (v)
             },
             deep: true
         }
