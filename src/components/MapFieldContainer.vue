@@ -70,7 +70,7 @@ export default {
                 this[types.SET_CSV_TO_XML_FIELDS] (v)
             },
             deep: true
-        }
+        },
     }
 }
 </script>

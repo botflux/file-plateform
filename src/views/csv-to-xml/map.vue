@@ -13,10 +13,10 @@
         </div>
         <b-row class="mt-5">
             <b-col md="6">
-                <map-field-container></map-field-container>
-                <xml-tags></xml-tags>
-                <xml-attribute-container></xml-attribute-container>
-                <xml-declaration-container></xml-declaration-container>
+                <map-field-container v-on:component-error-change="handle(errorState)"></map-field-container>
+                <xml-tags v-on:component-error-change="handle(errorState)"></xml-tags>
+                <xml-attribute-container v-on:component-error-change="handle(errorState)"></xml-attribute-container>
+                <xml-declaration-container v-on:component-error-change="handle(errorState)"></xml-declaration-container>
             </b-col>
             <b-col md="6">
                 <xml-preview class="sticky-top my-5"></xml-preview>
@@ -27,6 +27,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
+import * as types from '@/stores/types.js'
 
 import CSVHeader from '@/components/CSVHeader'
 import CSVHeadersContainer from '@/components/CSVHeadersContainer'
@@ -37,7 +38,7 @@ import MapFieldContainer from '@/components/MapFieldContainer'
 import XMLAttributeContainer from '@/components/XMLAttributeContainer.vue'
 import XMLTags from '@/components/XMLTags'
 
-const { mapState } = createNamespacedHelpers('csvToXml')
+const { mapState, mapGetters } = createNamespacedHelpers('csvToXml')
 
 export default {
     components: {
@@ -55,7 +56,19 @@ export default {
             file: state => state.file,
             fields: state => state.fields
         }),
+        ...mapGetters([
+            types.CSV_TO_XML_FILE_IS_VALID,
+            types.CSV_TO_XML_HEADERS_ARE_VALID
+        ])
     },
+    // eslint-disable-next-line
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+            if (!(vm[types.CSV_TO_XML_FILE_IS_VALID] && vm[types.CSV_TO_XML_HEADERS_ARE_VALID])) {
+                next({ name: 'csv-to-xml' })
+            }
+        })
+    }
     /* eslinl-disable */
     // beforeRouteEnter (to, from, next) {
     //     next(vm => {
